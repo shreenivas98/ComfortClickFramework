@@ -1,18 +1,67 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
+import HomePageUk from "../integration/CCAutomationFramework/UK/PageElements/HomePageUK"
+import HeaderUK from "../integration/CCAutomationFramework/UK/PageElements/HeaderUK"
+//import PdpUK from "../integration/CCAutomationFramework/UK/PageElements/pdpUK"
+import DetailsPage from "../integration/CCAutomationFramework/UK/PageElements/DetailsPage"
+
+const homaPageUK = new HomePageUk()
+const headerUK = new HeaderUK()
+//const pdpUK = new PdpUK()
+const detailsPage = new DetailsPage()
+
+Cypress.Commands.add('HomePage_Actions', () => {  
+    homaPageUK.acceptCookieButton().click()
+    homaPageUK.newArrivalSlider().should("be.visible")
+    homaPageUK.featuredProducts().should("be.visible") 
+    homaPageUK.heroBanner().should("be.visible")
+   // homaPageUK.ambassadorFavourites().should("be.visible")
+})  
+
+Cypress.Commands.add('Search_Actions', () => {  
+    homaPageUK.acceptCookieButton().click()
+    headerUK.serachBox()
+    headerUK.searchedProductName()    
+})
+
+// Cypress.Commands.add('AddToBasket_Action', () => {  
+//     pdpUK.AddToBasket_WW()
+//         // Check if the URL contains "ANI"
+//         if (cy.url().contains('weightworld')) {
+//             pdpUK.AddToBasket_WW()
+            
+//         } 
+
+//         if (url.includes('shy')) {
+//             pdpUK.AddToBasket_STB()
+            
+//         } 
+
+//         if (url.includes('animigo')) {
+//             pdpUK.AddToBasket()
+            
+//         }
+//     })
+
+Cypress.Commands.add('AddToBasket_Action', ()=>{
+    cy.url().then(url => {
+    if(url.includes('weightworld')){
+        detailsPage.AddToBasket_WW()
+    }
+
+    if(url.includes('shy')){
+        detailsPage.AddToBasket_STB()
+    }
+
+    if (url.includes('animigo')){
+        detailsPage.AddToBasket_Animigo()
+    }
+    else{
+        cy.log("Code goes in Else Part ")
+    }
+    
+})})
+
+
+
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
 //
@@ -48,6 +97,10 @@
 //   });
  
 // Custom command to handle the overlay
+
+
+
+
 
   
   
