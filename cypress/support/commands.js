@@ -14,9 +14,10 @@ Cypress.Commands.add('HomePage_Actions', () => {
     homaPageUK.featuredProducts().should("be.visible") 
     homaPageUK.heroBanner().should("be.visible")
    // homaPageUK.ambassadorFavourites().should("be.visible")
+   
 })  
 
-Cypress.Commands.add('Search_Actions', () => {  
+Cypress.Commands.add('Search_Actions', () => { 
     homaPageUK.acceptCookieButton().click()
     headerUK.serachBox()
     headerUK.searchedProductName()    
@@ -45,14 +46,54 @@ Cypress.Commands.add('AddToBasket_Action', ()=>{
     cy.url().then(url => {
     if(url.includes('weightworld')){
         detailsPage.AddToBasket_WW()
+
+        cy.get('.qtyPickerForDesktop').then($el =>{
+            if($el.is(':visible')){
+                detailsPage.PlusButton()
+                detailsPage.AddToBasket_WW()
+            }
+            else{
+                cy.wait(5000)
+                detailsPage.BulkBuy_Two_Qty()
+                detailsPage.AddToBasket_WW()
+            }
+        });
+              
     }
 
     if(url.includes('shy')){
         detailsPage.AddToBasket_STB()
+
+        cy.get('.qtyPickerForDesktop').then($el =>{
+            if($el.is(':visible')){
+                detailsPage.PlusButton()
+                detailsPage.PlusButton()
+                cy.wait(5000)
+                detailsPage.PlusButton()
+                detailsPage.AddToBasket_STB()
+            }
+            else{
+                detailsPage.BulkBuy_Two_Qty()
+                detailsPage.AddToBasket_STB()        
+            }
+        });
+        
     }
 
     if (url.includes('animigo')){
         detailsPage.AddToBasket_Animigo()
+        cy.get('.qtyPickerForDesktop').then($el =>{
+            if($el.is(':visible')){
+                detailsPage.PlusButton()
+                cy.wait(5000)
+                detailsPage.PlusButton()
+                detailsPage.AddToBasket_Animigo()
+            }
+            else{
+                detailsPage.BulkBuy_Two_Qty()
+                detailsPage.AddToBasket_Animigo()        
+            }
+        });
     }
     else{
         cy.log("Code goes in Else Part ")
@@ -60,7 +101,10 @@ Cypress.Commands.add('AddToBasket_Action', ()=>{
     
 })})
 
-
+Cypress.Commands.add('MiniCartAction', () => { 
+    headerUK.invokeCart()
+    headerUK.secureCheckout()    
+})
 
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })

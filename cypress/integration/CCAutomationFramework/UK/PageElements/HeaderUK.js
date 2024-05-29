@@ -3,13 +3,20 @@ class HeaderUK
 // Comman for all three sites
 
 serachBox(){
-    cy.get('#algo_search').type('b')
+   return cy.get('#algo_search').type('b')
 }
 
 searchedProductName(){
-    cy.get('#headerSearchHits .searchProd-name').first().click()
+    return cy.get('#headerSearchHits .searchProd-name').first().click()
 }
 
+invokeCart(){
+    return cy.get('.cartDropBlock .dropdown-menu').invoke('show')
+}
+
+secureCheckout(){
+    return cy.contains('Secure').click({force: true})
+}
 }
 
 
