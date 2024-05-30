@@ -1,5 +1,8 @@
 
+const { expect } = require("chai");
 const { describe } = require("mocha");
+
+
 
 const testToRun = Cypress.env('UK_Domain') ? Cypress.env('UK_Domain').split(',') : [];
 
@@ -17,7 +20,8 @@ describe('Check Out validation_Add to basket flow',function(){
         cy.visit(Cypress.env('WeightWorldUk'))
         cy.Search_Actions()
         cy.AddToBasket_Action()
-        cy.MiniCartAction() 
+        cy.MiniCartAction()        
+        cy.OrderTotalVerification()
     })
     }
 
@@ -27,7 +31,8 @@ describe('Check Out validation_Add to basket flow',function(){
             cy.Search_Actions()
             cy.AddToBasket_Action()
             cy.wait(2000)
-            cy.MiniCartAction()           
+            cy.MiniCartAction()   
+            cy.OrderTotalVerification()        
         })
     }
 
@@ -38,6 +43,7 @@ describe('Check Out validation_Add to basket flow',function(){
             cy.AddToBasket_Action()
             cy.wait(2000)
             cy.MiniCartAction()
+            cy.OrderTotalVerification()
         })
     }
 })

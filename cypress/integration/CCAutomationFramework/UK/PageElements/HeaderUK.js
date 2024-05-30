@@ -3,7 +3,7 @@ class HeaderUK
 // Comman for all three sites
 
 serachBox(){
-   return cy.get('#algo_search').type('b')
+   return cy.get('#algo_search').type('as')
 }
 
 searchedProductName(){

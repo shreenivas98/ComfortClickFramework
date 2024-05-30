@@ -1,7 +1,7 @@
 class DetailsPage{
 
     AddToBasket_WW(){
-        return cy.get('.col-lg-5 > :nth-child(1) > .col-sm-12 > :nth-child(4)').click()
+        return cy.get('.col-lg-5 > :nth-child(1) > .col-sm-12 > :nth-child(4)').click({force:true})
     }
 
     AddToBasket_STB(){
@@ -24,6 +24,9 @@ class DetailsPage{
         return cy.get('.numberBlock .inputNumber button.plus').click({force: true})
     }
     
+    Frequently_Baught_AddToCArt(){
+        return cy.get('.boughtTogetherBlock .buttonBlock#addToAll').click()
+    }
 
 }
 

@@ -1,12 +1,12 @@
 import HomePageUk from "../integration/CCAutomationFramework/UK/PageElements/HomePageUK"
 import HeaderUK from "../integration/CCAutomationFramework/UK/PageElements/HeaderUK"
-//import PdpUK from "../integration/CCAutomationFramework/UK/PageElements/pdpUK"
 import DetailsPage from "../integration/CCAutomationFramework/UK/PageElements/DetailsPage"
+import CartPage from "../integration/CCAutomationFramework/UK/PageElements/CartPage"
 
 const homaPageUK = new HomePageUk()
 const headerUK = new HeaderUK()
-//const pdpUK = new PdpUK()
 const detailsPage = new DetailsPage()
+const cartPage = new CartPage()
 
 Cypress.Commands.add('HomePage_Actions', () => {  
     homaPageUK.acceptCookieButton().click()
@@ -50,12 +50,13 @@ Cypress.Commands.add('AddToBasket_Action', ()=>{
         cy.get('.qtyPickerForDesktop').then($el =>{
             if($el.is(':visible')){
                 detailsPage.PlusButton()
-                detailsPage.AddToBasket_WW()
+                detailsPage.AddToBasket_WW()    
             }
             else{
                 cy.wait(5000)
                 detailsPage.BulkBuy_Two_Qty()
                 detailsPage.AddToBasket_WW()
+                detailsPage.Frequently_Baught_AddToCArt()
             }
         });
               
@@ -106,17 +107,37 @@ Cypress.Commands.add('MiniCartAction', () => {
     headerUK.secureCheckout()    
 })
 
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+//Verification Of order total with all added products to cart 
+        var sum=0
+        var roundedSum
+Cypress.Commands.add('OrderTotalVerification',()=>{
+
+    cartPage.ProductTotal().each(($el,index,$list) => {
+        const amount = $el.text()
+            var res=amount.split("£")
+            res=res[1].trim()
+            sum=Number(sum)+Number(res)
+    }).then(function()
+    {
+        roundedSum =sum.toFixed(2);
+        cy.log(roundedSum);
+    })
+
+    cartPage.GrandTotal().then(function(element){
+        const amount = element.text()
+            var total=amount.split("£")
+            total=total[1].trim()
+            if(Number(total)==Number(roundedSum)){
+                cy.log('Actual order total matched with expected');
+            }
+            else{
+                cy.log('Actual order total does not matched with expeted')
+            }
+            //expect(Number(total)).to.equal(Number(roundedSum))
+            
+    })
+})
 
 
 //Custom command to handle the pop-up
