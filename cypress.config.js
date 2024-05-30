@@ -17,7 +17,9 @@ module.exports = defineConfig({
       // implement node event listeners here
       require('cypress-mochawesome-reporter/plugin')(on);
     },
-    specPattern: 'cypress/integration/CCAutomationFramework/UK/Script/*.js'
+    specPattern: 'cypress/integration/CCAutomationFramework/*/*/*.js'
+    //specPattern: 'cypress/integration/examples/*.js'
+    //specPattern: 'cypress/integration/CCAutomationFramework/WeightWorld/Script/SiteDownCheckTest.js'
   },
   viewportHeight: 900,
     viewportWidth: 1280,

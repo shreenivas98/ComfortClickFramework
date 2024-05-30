@@ -1,16 +1,28 @@
 
 const { describe } = require("mocha");
 
+
+
 Cypress.on('uncaught:exception', (err, runnable) => {
     // Returning false here prevents Cypress from failing the test
     return false;
   });
 
 /// cypress spec
-describe('First test case',function(){
+describe('First test case',function()
+{
+
+    before(function(){
+        cy.fixture('example').then(function(data){
+            this.data=data
+        })
+
+    })
+
+
     it('Checkout_Flow_for_guest_user_by_search',function(){
      
-        cy.visit("https://www.weightworld.uk/")
+        cy.visit(this.data.URL)
         cy.get('#cookiescript_accept').click()
         
         cy.get('.searchbar #algo_search').type('Super')
