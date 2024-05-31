@@ -9,6 +9,9 @@ class CartPage{
         return cy.get('.order-total')
     }
 
+    basketCheckoutBtn(){
+        return cy.get('.product-pay-checkout #basketCheckoutBtn').click()
+    }
 
 }
 

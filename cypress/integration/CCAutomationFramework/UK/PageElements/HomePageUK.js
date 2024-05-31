@@ -8,7 +8,7 @@ newArrivalSlider()
 
 acceptCookieButton()
 {
-    return cy.get('#cookiescript_accept')
+    return cy.get('#cookiescript_injected #cookiescript_buttons #cookiescript_accept')
 }
 
 featuredProducts(){
@@ -23,6 +23,9 @@ ambassadorFavourites(){
     return cy.get('.ucgWrapper')
 }
 
+newArrivalProduct(){
+    return cy.get('.newArrivalsWrapper .thumbCaps .customNLSlide img').first().click({force:true})
+}
 
 }
 

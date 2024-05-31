@@ -20,7 +20,8 @@ Cypress.Commands.add('HomePage_Actions', () => {
 Cypress.Commands.add('Search_Actions', () => { 
     homaPageUK.acceptCookieButton().click()
     headerUK.serachBox()
-    headerUK.searchedProductName()    
+   // headerUK.searchedProductName()    
+   headerUK.serachAddToBasket()
 })
 
 // Cypress.Commands.add('AddToBasket_Action', () => {  
@@ -45,8 +46,6 @@ Cypress.Commands.add('Search_Actions', () => {
 Cypress.Commands.add('AddToBasket_Action', ()=>{
     cy.url().then(url => {
     if(url.includes('weightworld')){
-        detailsPage.AddToBasket_WW()
-
         cy.get('.qtyPickerForDesktop').then($el =>{
             if($el.is(':visible')){
                 detailsPage.PlusButton()
@@ -54,9 +53,9 @@ Cypress.Commands.add('AddToBasket_Action', ()=>{
             }
             else{
                 cy.wait(5000)
-                detailsPage.BulkBuy_Two_Qty()
+                detailsPage.BulkBuy_Three_Qty()
                 detailsPage.AddToBasket_WW()
-                detailsPage.Frequently_Baught_AddToCArt()
+                //detailsPage.Frequently_Baught_AddToCArt()
             }
         });
               
@@ -105,13 +104,18 @@ Cypress.Commands.add('AddToBasket_Action', ()=>{
 Cypress.Commands.add('MiniCartAction', () => { 
     headerUK.invokeCart()
     headerUK.secureCheckout()    
+
+})
+
+Cypress.Commands.add('SelectProductFromNewArrival', () => { 
+      homaPageUK.newArrivalProduct()
 })
 
 
 //Verification Of order total with all added products to cart 
         var sum=0
         var roundedSum
-Cypress.Commands.add('OrderTotalVerification',()=>{
+Cypress.Commands.add('OrderTotalVerification_OnBasketPage',()=>{
 
     cartPage.ProductTotal().each(($el,index,$list) => {
         const amount = $el.text()
@@ -129,6 +133,7 @@ Cypress.Commands.add('OrderTotalVerification',()=>{
             var total=amount.split("£")
             total=total[1].trim()
             if(Number(total)==Number(roundedSum)){
+                cy.log(total)
                 cy.log('Actual order total matched with expected');
             }
             else{

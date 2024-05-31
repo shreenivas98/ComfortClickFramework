@@ -1,7 +1,7 @@
 class DetailsPage{
 
     AddToBasket_WW(){
-        return cy.get('.col-lg-5 > :nth-child(1) > .col-sm-12 > :nth-child(4)').click({force:true})
+        return cy.get('.product-shope >.btn-basketGreen').click({force:true})
     }
 
     AddToBasket_STB(){
@@ -18,6 +18,10 @@ class DetailsPage{
 
     BulkBuy_Two_Qty(){
         return cy.get('#bulk_buy_qty_2').click({force: true})
+    }
+
+    BulkBuy_Three_Qty(){
+        return cy.get('[for="bulk_buy_qty_3"]').click({force:true})
     }
     
     PlusButton(){
