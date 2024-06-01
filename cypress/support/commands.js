@@ -102,6 +102,7 @@ Cypress.Commands.add('AddToBasket_Action', ()=>{
 })})
 
 Cypress.Commands.add('MiniCartAction', () => { 
+    
     headerUK.invokeCart()
     headerUK.secureCheckout()    
 
@@ -115,12 +116,55 @@ Cypress.Commands.add('SelectProductFromNewArrival', () => {
 //Verification Of order total with all added products to cart 
         var sum=0
         var roundedSum
+
+Cypress.Commands.add('OrderTotalVerification_For_Side_Cart_Functionality',()=>{
+    
+    cartPage.ProductTotalFR().each(($el,index,$list) => {
+        const amount = $el.text()
+        var res=amount.split("€")
+            res=res[0].trim()
+            sum=Number(sum)+Number(res)
+    }).then(function()
+    {
+        roundedSum =sum.toFixed(2);
+        cy.log(roundedSum);
+    })
+
+    cartPage.GrandTotalFR().then(function(element){
+        const amount = element.text()
+        var total=amount.split("€")
+            total=total[0].trim()
+            expect(Number(total)).to.equal(Number(roundedSum))
+    })
+})
+
 Cypress.Commands.add('OrderTotalVerification_OnBasketPage',()=>{
 
+    cy.url().then(CurrentURL => {
     cartPage.ProductTotal().each(($el,index,$list) => {
         const amount = $el.text()
+
+        if(CurrentURL.includes('weightworld.dk')){
+            var res=amount.split(" ")
+            res=res[0].trim()
+        }
+
+        if(CurrentURL.includes('weightworld.it')||CurrentURL.includes('weightworld.nl')){
+            var res=amount.split("€")
+            res=res[0].trim()
+        }
+
+        if(CurrentURL.includes('weightworld.uk')){
             var res=amount.split("£")
-            res=res[1].trim()
+            res=res[1].trim() //res[] stands fir 1st index of seperated value
+            
+        }
+
+        if(CurrentURL.includes('weightworld.se')){
+            var res=amount.split("K")
+            res=res[0].trim()
+        }
+            
             sum=Number(sum)+Number(res)
     }).then(function()
     {
@@ -130,19 +174,44 @@ Cypress.Commands.add('OrderTotalVerification_OnBasketPage',()=>{
 
     cartPage.GrandTotal().then(function(element){
         const amount = element.text()
+
+        if(CurrentURL.includes('weightworld.dk')){
+            var total=amount.split(" ")
+            total=total[0].trim()
+        }
+
+        if(CurrentURL.includes('weightworld.it') ||CurrentURL.includes('weightworld.nl') ){
+            var total=amount.split("€")
+            total=total[0].trim()
+        }
+
+        if(CurrentURL.includes('weightworld.uk')){
             var total=amount.split("£")
             total=total[1].trim()
-            if(Number(total)==Number(roundedSum)){
-                cy.log(total)
-                cy.log('Actual order total matched with expected');
-            }
-            else{
-                cy.log('Actual order total does not matched with expeted')
-            }
-            //expect(Number(total)).to.equal(Number(roundedSum))
+        }
+
+        if(CurrentURL.includes('weightworld.se')){
+            var total=amount.split("K")
+            total=total[0].trim()
+        }
+
+            // if(Number(total)==Number(roundedSum)){
+            //     cy.log(total)
+            //     cy.log('Actual order total matched with expected');
+            // }
+            // else{
+            //     cy.log('Actual order total does not matched with expeted')
+            // }
+            expect(Number(total)).to.equal(Number(roundedSum))
             
     })
+
+
+    })
 })
+
+
+
 
 
 //Custom command to handle the pop-up
