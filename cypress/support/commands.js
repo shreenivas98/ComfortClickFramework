@@ -2,11 +2,13 @@ import HomePageUk from "../integration/CCAutomationFramework/UK/PageElements/Hom
 import HeaderUK from "../integration/CCAutomationFramework/UK/PageElements/HeaderUK"
 import DetailsPage from "../integration/CCAutomationFramework/UK/PageElements/DetailsPage"
 import CartPage from "../integration/CCAutomationFramework/UK/PageElements/CartPage"
+import PLP from "../integration/CCAutomationFramework/WeightWorld/Pages/PLP"
 
 const homaPageUK = new HomePageUk()
 const headerUK = new HeaderUK()
 const detailsPage = new DetailsPage()
 const cartPage = new CartPage()
+const plpPage =new PLP()
 
 Cypress.Commands.add('HomePage_Actions', () => {  
     homaPageUK.acceptCookieButton().click()
@@ -108,6 +110,35 @@ Cypress.Commands.add('MiniCartAction', () => {
 
 })
 
+Cypress.Commands.add('MegaMenuCategoryNavigation', () => { 
+    homaPageUK.acceptCookieButton().click()
+     headerUK.thirdParentCategory()
+     cy.VerifyProductValuesNotZeroOnPLP()
+     headerUK.fifthParentCategory()
+     cy.VerifyProductValuesNotZeroOnPLP()
+     headerUK.firstParentCategory()
+     cy.VerifyProductValuesNotZeroOnPLP()
+       
+})
+
+Cypress.Commands.add('VerifyProductValuesNotZeroOnPLP', () => { 
+    cy.wait(3000)
+    plpPage.productPrice().each(($el)=>{
+
+        // Extract the text content of each element
+      const priceText = $el.text().trim();
+        // Remove any currency symbols if necessary
+      const priceTextCleaned = priceText.replace('£', ''); // Adjust this if needed
+
+      // Convert the text to a number
+      const price = parseFloat(priceTextCleaned);
+
+      // Assert that the price is not zero
+      expect(price).to.be.greaterThan(0);
+    })
+})
+
+
 Cypress.Commands.add('SelectProductFromNewArrival', () => { 
       homaPageUK.newArrivalProduct()
 })
@@ -118,6 +149,7 @@ Cypress.Commands.add('SelectProductFromNewArrival', () => {
         var roundedSum
 
 Cypress.Commands.add('OrderTotalVerification_For_Side_Cart_Functionality',()=>{
+    
     
     cartPage.ProductTotalFR().each(($el,index,$list) => {
         const amount = $el.text()
@@ -143,6 +175,12 @@ Cypress.Commands.add('OrderTotalVerification_OnBasketPage',()=>{
     cy.url().then(CurrentURL => {
     cartPage.ProductTotal().each(($el,index,$list) => {
         const amount = $el.text()
+
+
+        if(CurrentURL.includes('slimcenter')){
+            var res=amount.split("€")
+            res=res[0].trim().replace(',','.')
+        }
 
         if(CurrentURL.includes('weightworld.dk')){
             var res=amount.split(" ")
@@ -175,6 +213,11 @@ Cypress.Commands.add('OrderTotalVerification_OnBasketPage',()=>{
     cartPage.GrandTotal().then(function(element){
         const amount = element.text()
 
+        if(CurrentURL.includes('slimcenter')){
+            var total=amount.split("€")
+            total=total[0].trim().replace(',','.')
+        }
+        
         if(CurrentURL.includes('weightworld.dk')){
             var total=amount.split(" ")
             total=total[0].trim()
@@ -205,9 +248,10 @@ Cypress.Commands.add('OrderTotalVerification_OnBasketPage',()=>{
             expect(Number(total)).to.equal(Number(roundedSum))
             
     })
-
-
     })
+
+    
+
 })
 
 

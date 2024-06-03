@@ -58,8 +58,7 @@ describe('Grand Total Verification',function(){
     })
 
     it('Order_Total_Verification_for_WW/DK ',function(){
-       // cy.visit(Cypress.env('WeightWorldDK'))
-       cy.visit(this.data.WeightWorldDK)
+        cy.visit(this.data.WeightWorldDK)
         cy.Search_Actions()
         cy.get('.productModal .modal-header >.close').click()
         cy.SelectProductFromNewArrival()
@@ -78,4 +77,12 @@ describe('Grand Total Verification',function(){
          cy.OrderTotalVerification_OnBasketPage()
      })
 
+     it('Order_Total_Verification_for_WW/DE ',function(){
+        cy.visit(this.data.WeightWorldDE)
+         cy.Search_Actions()  
+         cy.SelectProductFromNewArrival()
+         cy.AddToBasket_Action()
+         cy.MiniCartAction()
+         cy.OrderTotalVerification_OnBasketPage()
+     })
 })

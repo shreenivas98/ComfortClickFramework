@@ -9,8 +9,16 @@ class CartPage{
         return cy.get('.order-total')
     }
 
+    ProductTotalFR(){
+        return cy.get('.basketBody .text-secondary')
+    }    
+
     basketCheckoutBtn(){
         return cy.get('.product-pay-checkout #basketCheckoutBtn').click()
+    }
+
+    GrandTotalFR(){
+        return cy.get('.basketFooter .text-secondary')
     }
 
 }
