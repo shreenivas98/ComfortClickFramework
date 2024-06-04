@@ -9,6 +9,7 @@ const headerUK = new HeaderUK()
 const detailsPage = new DetailsPage()
 const cartPage = new CartPage()
 const plpPage =new PLP()
+let categoryUrls = [];
 
 Cypress.Commands.add('HomePage_Actions', () => {  
     homaPageUK.acceptCookieButton().click()
@@ -62,62 +63,29 @@ Cypress.Commands.add('AddToBasket_Action', ()=>{
         });
               
     }
-
-    if(url.includes('shy')){
-        detailsPage.AddToBasket_STB()
-
-        cy.get('.qtyPickerForDesktop').then($el =>{
-            if($el.is(':visible')){
-                detailsPage.PlusButton()
-                detailsPage.PlusButton()
-                cy.wait(5000)
-                detailsPage.PlusButton()
-                detailsPage.AddToBasket_STB()
-            }
-            else{
-                detailsPage.BulkBuy_Two_Qty()
-                detailsPage.AddToBasket_STB()        
-            }
-        });
-        
-    }
-
-    if (url.includes('animigo')){
-        detailsPage.AddToBasket_Animigo()
-        cy.get('.qtyPickerForDesktop').then($el =>{
-            if($el.is(':visible')){
-                detailsPage.PlusButton()
-                cy.wait(5000)
-                detailsPage.PlusButton()
-                detailsPage.AddToBasket_Animigo()
-            }
-            else{
-                detailsPage.BulkBuy_Two_Qty()
-                detailsPage.AddToBasket_Animigo()        
-            }
-        });
-    }
-    else{
-        cy.log("Code goes in Else Part ")
-    }
-    
-})})
+    })})
 
 Cypress.Commands.add('MiniCartAction', () => { 
-    
     headerUK.invokeCart()
     headerUK.secureCheckout()    
+})
 
+Cypress.Commands.add('QuickViewActions', () => { 
+    plpPage.quickViewbtn()
+    plpPage.quickViewAddToBasketBtn()
 })
 
 Cypress.Commands.add('MegaMenuCategoryNavigation', () => { 
-    homaPageUK.acceptCookieButton().click()
+    //homaPageUK.acceptCookieButton().click()
      headerUK.thirdParentCategory()
      cy.VerifyProductValuesNotZeroOnPLP()
+     cy.QuickViewActions()
      headerUK.fifthParentCategory()
      cy.VerifyProductValuesNotZeroOnPLP()
+     cy.QuickViewActions()
      headerUK.firstParentCategory()
      cy.VerifyProductValuesNotZeroOnPLP()
+     cy.QuickViewActions()
        
 })
 
@@ -149,8 +117,7 @@ Cypress.Commands.add('SelectProductFromNewArrival', () => {
         var roundedSum
 
 Cypress.Commands.add('OrderTotalVerification_For_Side_Cart_Functionality',()=>{
-    
-    
+
     cartPage.ProductTotalFR().each(($el,index,$list) => {
         const amount = $el.text()
         var res=amount.split("€")
@@ -252,6 +219,42 @@ Cypress.Commands.add('OrderTotalVerification_OnBasketPage',()=>{
 
     
 
+})
+
+
+Cypress.Commands.add('Extract_All_URLs', () => {    
+    cy.get('.header-bottom [href]').each(($el) => {
+        const url = $el.prop('href');
+        categoryUrls.push(url);
+      });
+})
+
+Cypress.Commands.add('VisitEachCategory', () => {    
+    categoryUrls.forEach((url) => {
+        if (url.includes('https')) {
+        cy.request({
+          url: url,
+          failOnStatusCode: false
+        }).then((response) => {
+          // Check if response contains HTML content
+          const contentType = response.headers['content-type'];
+          
+            // Response contains HTML, execute the test
+            cy.visit(url, { failOnStatusCode: false });
+            if (response.status !== 200) {
+              cy.log(`Request failed for URL: ${url} with status ${response.status}`);
+              
+          }
+          expect(response.status).to.eq(200);
+          } 
+          
+      )}
+        else {
+            // Response does not contain HTML, print 'void'
+            
+            cy.log('Not an Valid Url',url);
+          }
+        });
 })
 
 

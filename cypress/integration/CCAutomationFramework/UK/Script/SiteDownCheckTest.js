@@ -22,19 +22,29 @@ describe('Site health',function(){
     
    // if (testToRun.length === 0 || testToRun.includes('weightworld')) {
     it('SiteUpCheckTest_for_all_WeightWorld_websites',function(){
-            this.data.allurls.forEach(function(element){
+            this.data.weightworld.forEach(function(element){
             cy.visit(element)  
-            
             cy.request(element).then((response) => {
                 expect(response.status).to.eq(200);
               });
-
-
-        })
-        
+        })   
     })
 
-    
-    
+    it('SiteUpCheckTest_for_all_Animigo_websites',function(){
+        this.data.animigo.forEach(function(element){
+        cy.visit(element)  
+        cy.request(element).then((response) => {
+            expect(response.status).to.eq(200);
+          });
+    })   
+})
 
+    it('SiteUpCheckTest_for_all_ShyToBuy_websites',function(){
+            this.data.shytobuy.forEach(function(element){
+            cy.visit(element)  
+            cy.request(element).then((response) => {
+                expect(response.status).to.eq(200);
+              });
+        })   
+    })
 })
