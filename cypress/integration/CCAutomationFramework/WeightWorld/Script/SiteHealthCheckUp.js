@@ -18,19 +18,19 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 describe('Site Health Check',function(){
     
     it('HealthCheckUpForWWFR',function(){
-        cy.visit(this.data.WeightWorldFR)
+        cy.visit(this.data.AnimigoUK)
         cy.Extract_All_URLs()
         cy.VisitEachCategory() 
      })
     
      it('HealthCheckUpForWWUK',function(){
-        cy.visit(this.data.WeightWorldUK)
+        cy.visit(this.data.AnimigoDK)
         cy.Extract_All_URLs()
         cy.VisitEachCategory() 
      })
      
      it('HealthCheckUpForWWDK',function(){
-        cy.visit(this.data.WeightWorldDK)
+        cy.visit(this.data.AnimigoIT)
         cy.Extract_All_URLs()
         cy.VisitEachCategory() 
      })
