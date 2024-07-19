@@ -36,7 +36,7 @@ describe('Collect and Verify URLs', () => {
   it('Verify URLs return 200 status code and save failed URLs', () => {
     const failedUrls = [];
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const failedUrlsPath = `${failedUrlsBasePath}${timestamp}.json`;
+    const failedUrlsPath = `${failedUrlsBasePath}.json`;
 
     cy.readFile(urlsPath).then(urls => {
       urls.forEach(url => {
@@ -52,14 +52,20 @@ describe('Collect and Verify URLs', () => {
       });
     }).then(() => {
       // Write the failed URLs to a file if there are any failures
-      if (failedUrls.length > 0) {
-        cy.writeFile(failedUrlsPath, failedUrls).then(() => {
-          // Execute the script to send an email
-          //cy.exec('sendemail.js');
-          cy.EmailSender()
-        });
+    //   if (failedUrls.length > 0) {
+    //     cy.writeFile(failedUrlsPath, failedUrls).then(() => {
+    //       // Execute the script to send an email
+    //       //cy.exec('sendemail.js');
+    //       cy.EmailSender()
+    //     });
 
-    }})
+    // }
+    cy.writeFile(failedUrlsPath, failedUrls).then(() => {
+              // Execute the script to send an email
+              //cy.exec('sendemail.js');
+              cy.EmailSender()
+            });
+})
 
 //   it('Verify URLs return 200 status code and save failed URLs', () => {
 //     cy.readFile(urlsPath).then(urls => {

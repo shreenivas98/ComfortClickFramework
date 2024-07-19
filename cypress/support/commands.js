@@ -118,11 +118,11 @@ Cypress.Commands.add('EmailSender',() => {
 const transporter = nodemailer.createTransport({
   service: "gmail",
   host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // Use `true` for port 465, `false` for all other ports
+  port: 465,
+  secure: true, // Use `true` for port 465, `false` for all other ports
   auth: {
     user: "shreeniwas.ukhale@comfortclick.co.uk",
-    pass: "aogp knrf wtpk cvcn",
+    pass: "",
   },
 });
 
