@@ -1,0 +1,74 @@
+{
+    "weightworldUK" : 
+    ["https://www.weightworld.uk/superfoods.html",
+
+     "https://www.weightworld.uk/wellbeing.html",
+    "https://www.weightworld.uk/weight-loss-supplements.html",
+    "https://www.weightworld.uk/fitness.html",
+    "https://www.weightworld.uk/vitamins-minerals.html",
+    "https://www.weightworld.uk/amino-acids.html",
+    "https://www.weightworld.uk/bestsellers.html"
+    ],
+
+    "WeightworldFR" : 
+    ["https://www.weightworld.fr/superfruits.html",
+    "https://www.weightworld.fr/bien-etre.html",
+    "https://www.weightworld.fr/gestion-du-poids.html",
+    "https://www.weightworld.fr/fitness.html",
+    "https://www.weightworld.fr/vitamines-et-mineraux.html",
+    "https://www.weightworld.fr/vegan.html"
+    ],
+
+    "WeightworldIT" : 
+    ["https://www.weightworld.it/integratori-superfood.html",
+    "https://www.weightworld.it/benessere.html",
+    "https://www.weightworld.it/perdita-di-peso.html",
+    "https://www.weightworld.it/fitness.html",
+    "https://www.weightworld.it/vitamine-minerali.html",
+    "https://www.weightworld.it/organic.html"
+    ],
+
+    "WeightworldDE" : 
+    ["https://www.slimcenter.de/superfoods.html",
+    "https://www.slimcenter.de/wohlbefinden.html",
+    "https://www.slimcenter.de/abnehmen.html",
+    "https://www.slimcenter.de/fitness.html",
+    "https://www.slimcenter.de/vitamine-und-mineralien.html",
+    "https://www.slimcenter.de/vegan.html"
+    ],
+
+    "WeightworldES" : 
+    ["https://www.weightworld.es/superalimentos.html",
+    "https://www.weightworld.es/bienestar.html",
+    "https://www.weightworld.es/perdida-peso.html",
+    "https://www.weightworld.es/fitness.html",
+    "https://www.weightworld.es/vitaminas-minerales.html",
+    "https://www.weightworld.es/organic.html"
+    ],
+    
+    "WeightworldDK" :
+    ["https://www.weightworld.dk/superfoods.html",
+    "https://www.weightworld.dk/helbred-og-velvaere.html",
+    "https://www.weightworld.dk/vaegttab.html",
+    "https://www.weightworld.dk/myprotein-fitness.html",
+    "https://www.weightworld.dk/vitaminer-og-mineraler.html",
+    "https://www.weightworld.dk/okologisk.html"],
+
+    "WeightworldSE":
+    ["https://www.weightworld.se/superfoods.html",
+    "https://www.weightworld.se/valmaende.html",
+    "https://www.weightworld.se/viktminskning.html",
+    "https://www.weightworld.se/traningsredskap.html",
+    "https://www.weightworld.se/vitaminer-och-mineraler.html",
+    "https://www.weightworld.se/ayurvedic.html"
+    ],
+
+    "WeightworldNL":
+    ["https://www.weightworld.nl/superfoods.html",
+    "https://www.weightworld.nl/welzijn.html",
+    "https://www.weightworld.nl/gewichtsverlies.html",
+    "https://www.weightworld.nl/fitness.html",
+    "https://www.weightworld.nl/vitamines-en-mineralen.html",
+    "https://www.weightworld.nl/ayurvedic.html"
+    ]
+}

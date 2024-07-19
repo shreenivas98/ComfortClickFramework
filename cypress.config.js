@@ -5,7 +5,7 @@ module.exports = defineConfig({
   "defaultCommandTimeout": 10000, // Set default command timeout to 10 seconds
   "pageLoadTimeout": 60000,       // Set page load timeout to 60 seconds
   "requestTimeout": 5000,         // Set request timeout to 5 seconds
-  "responseTimeout": 30000  ,
+  "responseTimeout": 30000,
    
   projectId: "rfnr3e",
   //projectId: "km33sz",
@@ -17,7 +17,10 @@ module.exports = defineConfig({
     AnimigoUk:"https://www.animigo.co.uk/"
   },
 
-  
+  retries: {
+    runMode: 2,
+    openMode: 2,
+    },
 
   e2e: {
     setupNodeEvents(on, config) {

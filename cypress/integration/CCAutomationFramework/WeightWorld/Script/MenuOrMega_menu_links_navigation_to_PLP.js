@@ -7,7 +7,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   });
 
 /// cypress spec
-describe('Site health',function(){
+describe('Mega Menu Redirections',function(){
 
     this.beforeEach(function(){
         cy.fixture('URLs').then(function(data){

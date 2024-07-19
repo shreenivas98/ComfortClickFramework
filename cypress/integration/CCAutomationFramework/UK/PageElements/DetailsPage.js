@@ -1,7 +1,7 @@
 class DetailsPage{
 
     AddToBasket_WW(){
-        return cy.get('.product-shope >.btn-basketGreen').click({force:true})
+        return cy.get('#ATCQTY').click({force:true})
     }
 
     AddToBasket_STB(){
@@ -25,7 +25,7 @@ class DetailsPage{
     }
     
     PlusButton(){
-        return cy.get('.numberBlock .inputNumber button.plus').click({force: true})
+        return cy.get('.numberBlock .inputNumber button.plus').first().click({force: true})
     }
     
     Frequently_Baught_AddToCArt(){

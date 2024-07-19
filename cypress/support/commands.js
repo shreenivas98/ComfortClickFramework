@@ -3,6 +3,7 @@ import HeaderUK from "../integration/CCAutomationFramework/UK/PageElements/Heade
 import DetailsPage from "../integration/CCAutomationFramework/UK/PageElements/DetailsPage"
 import CartPage from "../integration/CCAutomationFramework/UK/PageElements/CartPage"
 import PLP from "../integration/CCAutomationFramework/WeightWorld/Pages/PLP"
+import { assert } from "chai"
 
 const homaPageUK = new HomePageUk()
 const headerUK = new HeaderUK()
@@ -10,9 +11,16 @@ const detailsPage = new DetailsPage()
 const cartPage = new CartPage()
 const plpPage =new PLP()
 let categoryUrls = [];
+const ProPrice = [];
+
+
+Cypress.Commands.add('Accept_Cookies', () => {  
+    homaPageUK.acceptCookieButton().click()
+})  
+
 
 Cypress.Commands.add('HomePage_Actions', () => {  
-    homaPageUK.acceptCookieButton().click()
+    cy.Accept_Cookies()
     homaPageUK.newArrivalSlider().should("be.visible")
     homaPageUK.featuredProducts().should("be.visible") 
     homaPageUK.heroBanner().should("be.visible")
@@ -21,7 +29,7 @@ Cypress.Commands.add('HomePage_Actions', () => {
 })  
 
 Cypress.Commands.add('Search_Actions', () => { 
-    homaPageUK.acceptCookieButton().click()
+    cy.Accept_Cookies()
     headerUK.serachBox()
    // headerUK.searchedProductName()    
    headerUK.serachAddToBasket()
@@ -45,6 +53,100 @@ Cypress.Commands.add('Search_Actions', () => {
             
 //         }
 //     })
+Cypress.Commands.add('EmailSender',() => {
+    // const nodemailer = require('nodemailer');
+    // const fs = require('fs');
+    // const path = require('path');
+    
+    // // Email configuration
+    // const transporter = nodemailer.createTransport({
+    //   service: 'gmail', // e.g., use 'gmail' or your preferred email service
+    //   host:"smtp.gmail.com",
+    //   auth: {
+    //     user: 'shreeniwas.ukhale@comfortclick.co.uk',
+    //     pass: 'djhmf@#$820XL'
+    //   }
+    // });
+    
+    // // Get the most recent failed URLs file
+    // const directoryPath = path.join(failed_urls, 'cypress/fixtures');
+    // let recentFile;
+    
+    // fs.readdir(directoryPath, (err, files) => {
+    //   if (err) {
+    //     console.error('Unable to scan directory: ' + err);
+    //     process.exit(1);
+    //   }
+    
+    //   const failedFiles = files.filter(file => file.startsWith('failed_urls_'));
+    //   recentFile = failedFiles.sort((a, b) => {
+    //     return fs.statSync(path.join(directoryPath, b)).mtime.getTime() -
+    //            fs.statSync(path.join(directoryPath, a)).mtime.getTime();
+    //   })[0];
+    
+    //   if (recentFile) {
+    //     // Send the email with the recent failed URLs file as an attachment
+    //     const mailOptions = {
+    //       from: 'shreeniwas.ukhale@comfortclick.co.uk',
+    //       to: 'shreenivasukhale@gmail.com',
+    //       subject: 'Cypress Test - Failed URLs',
+    //       text: 'Please find the attached file containing the failed URLs.',
+    //       attachments: [
+    //         {
+    //           filename: recentFile,
+    //           path: path.join(directoryPath, recentFile)
+    //         }
+    //       ]
+    //     };
+    
+    //     transporter.sendMail(mailOptions, (error, info) => {
+    //       if (error) {
+    //         console.error(error);
+    //         process.exit(1);
+    //       }
+    //       console.log('Email sent: ' + info.response);
+    //       process.exit(0);
+    //     });
+    //   } else {
+    //     console.log('No failed URLs file found.');
+    //     process.exit(0);
+    //   }
+    // });
+
+    const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // Use `true` for port 465, `false` for all other ports
+  auth: {
+    user: "shreeniwas.ukhale@comfortclick.co.uk",
+    pass: "aogp knrf wtpk cvcn",
+  },
+});
+
+// async..await is not allowed in global scope, must use a wrapper
+async function main() {
+    // send mail with defined transport object
+    const info = await transporter.sendMail({
+      from: '"Shreenivas" <shreeniwas.ukhale@comfortclick.co.uk>', // sender address
+      to: "shreenivasukhale@gmail.com", // list of receivers
+      subject: "Hello ✔", // Subject line
+      text: "Hello world?", // plain text body
+      html: "<b>Hello world?</b>", // html body
+    });
+  
+    console.log("Message sent: %s", info.messageId);
+    // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+  }
+  
+  main().catch(console.error);
+
+    
+})
+
+
 
 Cypress.Commands.add('AddToBasket_Action', ()=>{
     cy.url().then(url => {
@@ -74,7 +176,33 @@ Cypress.Commands.add('QuickViewActions', () => {
     plpPage.quickViewbtn()
     plpPage.quickViewAddToBasketBtn()
 })
+ 
+Cypress.Commands.add('HandlePriceSlider', () => { 
+    plpPage.priceSlider()
+    .should('have.attr', 'style', 'left: 100%;')
+    .invoke('attr', 'style', 'left: 50%;');
+    plpPage.priceSlider().click({force:true})
+})
+ 
+Cypress.Commands.add('AddToBasketOnPLP', () => {
+    
+    plpPage.AddToBasketBtnPLP().first().click({force:true})
+    cy.wait(3000) 
+    plpPage.productModalOverlay().then($el =>{
+        cy.wait(2000)
+        if ($el.is(':visible')) {
+            plpPage.popUpAddToBasketBtn().first().click({force:true})
+          }
+        
+        else{
+            if(headerUK.cartDropDown().should('have.attr','style','display: block;')){
+                cy.log('POP UP NOT DISPLAYED')
+            }
+        }
 
+    })
+    
+})
 Cypress.Commands.add('MegaMenuCategoryNavigation', () => { 
     //homaPageUK.acceptCookieButton().click()
      headerUK.thirdParentCategory()
@@ -87,6 +215,36 @@ Cypress.Commands.add('MegaMenuCategoryNavigation', () => {
      cy.VerifyProductValuesNotZeroOnPLP()
      cy.QuickViewActions()
        
+})
+
+//Verify filters prices are expedted or not 
+Cypress.Commands.add('VerifyPriceFilter', () => { 
+    cy.wait(3000)
+    plpPage.filteredPrices().each(($el)=>{
+
+        // Extract the text content of each element
+      const priceText = $el.text().trim();
+        // Remove any currency symbols if necessary
+      const priceTextCleaned = priceText.replace('£', ''); // Adjust this if needed
+      // Convert the text to a number
+      const price = parseFloat(priceTextCleaned);
+    
+     plpPage.maxFilteredPrice().each(($ab) =>{
+
+        const trimedPrice = $ab.text().trim();
+        const replacedPrice = trimedPrice.replace('£', '')
+        const maxTrimedPrice = parseFloat(replacedPrice);
+     
+    
+        if (price>maxTrimedPrice){
+            expect(price).to.be.lessThan(maxTrimedPrice);
+        }
+        if (price<maxTrimedPrice){
+            expect(price).to.be.lessThan(maxTrimedPrice);
+        }
+    })
+      
+    })
 })
 
 Cypress.Commands.add('VerifyProductValuesNotZeroOnPLP', () => { 
@@ -105,7 +263,6 @@ Cypress.Commands.add('VerifyProductValuesNotZeroOnPLP', () => {
       expect(price).to.be.greaterThan(0);
     })
 })
-
 
 Cypress.Commands.add('SelectProductFromNewArrival', () => { 
       homaPageUK.newArrivalProduct()
@@ -227,6 +384,7 @@ Cypress.Commands.add('Extract_All_URLs', () => {
         const url = $el.prop('href');
         categoryUrls.push(url);
       });
+      //console.log(categoryUrls)
 })
 
 Cypress.Commands.add('VisitEachCategory', () => {    

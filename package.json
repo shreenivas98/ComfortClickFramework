@@ -4,10 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npm cypress run",
-    "recorded": "cypress run --record --key 08c30cdf-3d08-49fa-b233-e66165e0ae42"
-    ,"ChromeBrowser":"cypress run --record --key 08c30cdf-3d08-49fa-b233-e66165e0ae42 --browser ChromeBrowser"
-  
-  
+    "recorded": "cypress run --record --key 08c30cdf-3d08-49fa-b233-e66165e0ae42",
+    "ChromeBrowser": "cypress run --record --key 08c30cdf-3d08-49fa-b233-e66165e0ae42 --browser ChromeBrowser"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +15,8 @@
     "cypress-mochawesome-reporter": "^3.8.2",
     "mocha": "^10.4.0"
   },
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "nodemailer": "^6.9.14"
+  }
 }
