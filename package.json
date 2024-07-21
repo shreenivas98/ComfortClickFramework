@@ -17,6 +17,8 @@
   },
   "description": "",
   "dependencies": {
-    "nodemailer": "6.9.14"
+    "express": "^4.19.2",
+    "nodemailer": "6.9.14",
+    "nodemailer-sendgrid-transport": "^0.2.0"
   }
 }

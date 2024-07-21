@@ -10,8 +10,16 @@ const headerUK = new HeaderUK()
 const detailsPage = new DetailsPage()
 const cartPage = new CartPage()
 const plpPage =new PLP()
+let accumulatedFailedUrls = [];
 let categoryUrls = [];
+let itCounter = 0; 
 const ProPrice = [];
+
+
+const urlsPath = "cypress/fixtures/ExtractedURL's.json";
+const failedUrlsBasePath = 'cypress/fixtures/failed_urls.json';
+
+
 
 
 Cypress.Commands.add('Accept_Cookies', () => {  
@@ -113,37 +121,37 @@ Cypress.Commands.add('EmailSender',() => {
     //   }
     // });
 
-    const nodemailer = require("nodemailer");
+//     const nodemailer = require("nodemailer");
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // Use `true` for port 465, `false` for all other ports
-  auth: {
-    user: "shreeniwas.ukhale@comfortclick.co.uk",
-    pass: "",
-  },
-});
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   host: "smtp.gmail.com",
+//   port: 465,
+//   secure: true, // Use `true` for port 465, `false` for all other ports
+//   auth: {
+//     user: "shreeniwas.ukhale@comfortclick.co.uk",
+//     pass: "djhmf@#$820XL",
+//   },
+// });
 
-// async..await is not allowed in global scope, must use a wrapper
-async function main() {
-    // send mail with defined transport object
-    const info = await transporter.sendMail({
-      from: '"Shreenivas" <shreeniwas.ukhale@comfortclick.co.uk>', // sender address
-      to: "shreenivasukhale@gmail.com", // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
-      html: "<b>Hello world?</b>", // html body
-    });
+// // async..await is not allowed in global scope, must use a wrapper
+// async function main() {
+//     // send mail with defined transport object
+//     const info = await transporter.sendMail({
+//       from: '"Shreenivas" <shreeniwas.ukhale@comfortclick.co.uk>', // sender address
+//       to: "shreenivasukhale@gmail.com", // list of receivers
+//       subject: "Hello ✔", // Subject line
+//       text: "Hello world?", // plain text body
+//       html: "<b>Hello world?</b>", // html body
+//     });
   
-    console.log("Message sent: %s", info.messageId);
-    // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
-  }
+//     console.log("Message sent: %s", info.messageId);
+//     // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+//   }
   
-  main().catch(console.error);
+//   main().catch(console.error);
 
-    
+
 })
 
 
@@ -379,13 +387,84 @@ Cypress.Commands.add('OrderTotalVerification_OnBasketPage',()=>{
 })
 
 
-Cypress.Commands.add('Extract_All_URLs', () => {    
-    cy.get('.header-bottom [href]').each(($el) => {
-        const url = $el.prop('href');
-        categoryUrls.push(url);
-      });
-      //console.log(categoryUrls)
+Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {   
+    // cy.get('.header-bottom [href]').each(($el) => {
+    //     const url = $el.prop('href');
+    //     categoryUrls.push(url);
+    //   });
+    //   //console.log(categoryUrls)
+    cy.get('a').each($el => {
+        const href = $el.attr('href');
+        if (href) {
+            // Handle absolute URLs directly
+            if (href.startsWith('http')) {
+                cy.readFile(urlsPath).then(data => {
+                    if (!data.includes(href)) {
+                        data.push(href);
+                        cy.writeFile(urlsPath, data);
+                    }
+                });
+            } 
+            // Handle relative URLs
+            else if (href.startsWith('/')) {
+                if (baseUrl) {
+                    const fullUrl = baseUrl + href;
+                    cy.readFile(urlsPath).then(data => {
+                        if (!data.includes(fullUrl)) {
+                            data.push(fullUrl);
+                            cy.writeFile(urlsPath, data);
+                        }
+                    });
+                } else {
+                    cy.log('Base URL is not set in Cypress command');
+                }
+            }
+        }
+    });
 })
+
+
+
+Cypress.Commands.add('VerifyResponseCode', () =>{
+
+    const failedUrls = [];
+    //const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const failedUrlsPath = `${failedUrlsBasePath}`;
+
+
+    cy.readFile(urlsPath).then(urls => {
+        urls.forEach(url => {
+          cy.request({
+            url: url,
+            failOnStatusCode: false
+          }).then(response => {
+            if (response.status !== 200) {
+              //failedUrls.push({ url: url, status: response.status });
+              accumulatedFailedUrls.push({ url: url, status: response.status });
+            }
+          });
+        });
+      })
+      .then(() => {
+        // Write the failed URLs to a file if there are any failures
+        //cy.writeFile(failedUrlsPath, failedUrls);
+        cy.readFile(failedUrlsPath).then(existingFailedUrls => {
+                    const updatedFailedUrls = existingFailedUrls.concat(accumulatedFailedUrls);
+                    cy.writeFile(failedUrlsPath, updatedFailedUrls);
+                  })
+
+
+      });
+})
+
+Cypress.Commands.add('SendEmail', () =>{
+    cy.task('sendMail', { 
+        subject: 'Cypress Test - Failed URLs', 
+        text: 'Please find the attached file containing the failed URLs.'
+      }).then(result => console.log(result));
+   
+})
+
 
 Cypress.Commands.add('VisitEachCategory', () => {    
     categoryUrls.forEach((url) => {
@@ -417,30 +496,29 @@ Cypress.Commands.add('VisitEachCategory', () => {
 
 
 
+  
+Cypress.Commands.add('compareFilesAndWriteDifference', (file1, file2, diffFile) => {
+    cy.readFile(file1).then(array1 => {
+      cy.readFile(file2).then(array2 => {
+        // Find elements in array1 that are not in array2
+        const diff1 = array1.filter(x => !array2.includes(x));
+        // Find elements in array2 that are not in array1
+        const diff2 = array2.filter(x => !array1.includes(x));
+  
+        // Combine the differences
+        const differences = [...diff1, ...diff2];
+  
+        // Write differences to a new file
+        cy.writeFile(diffFile, differences);
+      });
+    });
+  });
+  
+  
 
 
-//Custom command to handle the pop-up
-// Cypress.Commands.add('handlePopup', () => {
-//     return cy.contains('Secure').then(popup => { // Make sure to return the promise here
-//       if (popup.length > 0) {
-//         return cy.get('#addToBasket > .modal-dialog > .modal-content > .modal-header > .close').click(); // Adjust this selector based on your actual close button
-//       }
-//     });
-//   });
-  
-//   Cypress.on('fail', (error, runnable) => {
-//     // Check if the failure is due to a Cypress command
-//     if (error.source === 'cy'){
-//       // Handle the pop-up before retrying the failed test step
-//       cy.handlePopup().then(() => {
-//         runnable.retry();
-//       });
-  
-//       return false;
-//     }
-//   });
- 
-// Custom command to handle the overlay
+
+
 
 
 
