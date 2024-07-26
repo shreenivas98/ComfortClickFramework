@@ -1,4 +1,12 @@
 {
+
+  "weightworld" : 
+    [
+      "https://www.weightworld.it/",
+      "https://www.weightworld.uk/",
+     "https://www.weightworld.dk/"
+    ],
+
   "WeightWorldUK": "https://www.weightworld.uk/",
   "WeightWorldDK": "https://www.weightworld.dk/",
   "WeightWorldIT": "https://www.weightworld.it/",

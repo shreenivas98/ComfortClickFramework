@@ -2,9 +2,10 @@ const { defineConfig } = require("cypress");
 const nodemailer = require('nodemailer');
 const path = require('path');
 const fs = require('fs');
+const reportFile =  "../Cypress_Automation/cypress/reports/html/index.html";
 
 // Read email configuration
-const emailConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'emailConfig.json')));
+const emailConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'email_Config.json')));
 
 
 module.exports = defineConfig({
@@ -14,7 +15,7 @@ module.exports = defineConfig({
   "requestTimeout": 5000,         // Set request timeout to 5 seconds
   "responseTimeout": 30000,
    
-  projectId: "rfnr3e",
+  projectId: "rfnr3e", 
   reporter: 'cypress-mochawesome-reporter',
 
   env: {
@@ -33,7 +34,7 @@ module.exports = defineConfig({
       require('cypress-mochawesome-reporter/plugin')(on);
 
       on('task', {
-        sendMail({ subject, text }) {
+        sendMail({ subject, html  }) {
           const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -62,16 +63,22 @@ module.exports = defineConfig({
                 const mailOptions = {
                   from: emailConfig.senderEmail,
                   to: emailConfig.receiverEmails.join(', '),
-                  subject: 'Site Health Check Up',
-                  text: 'Please find the attached file containing URLs with response code other than 200.',
+                  subject: subject, //'Site Health Check Up',
+                  html: html , // Use HTML if indicated
                   attachments: [
                     {
                       filename: recentFile,
                       path: path.join(directoryPath, recentFile)
                     }
+                    // {
+                    //   filename: path.basename(reportFile),
+                    //   path: reportFile
+                    // }
+
                   ]
                 };
 
+              
                 transporter.sendMail(mailOptions, (error, info) => {
                   if (error) {
                     console.error('Error sending email:', error);
@@ -91,6 +98,7 @@ module.exports = defineConfig({
     },
 
     specPattern: 'cypress/integration/CCAutomationFramework/WeightWorld/Script/*.js',
+    
     defaultCommandTimeout: 60000, // Increase the default command timeout for Cypress
   },
   viewportHeight: 900,

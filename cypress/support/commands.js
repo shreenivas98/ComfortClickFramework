@@ -15,9 +15,18 @@ let categoryUrls = [];
 let itCounter = 0; 
 const ProPrice = [];
 
-
+let totalExtractedURLs
+let totalFailedURLs
 const urlsPath = "cypress/fixtures/ExtractedURL's.json";
 const failedUrlsBasePath = 'cypress/fixtures/failed_urls.json';
+const realtotal = 'cypress/fixtures/TotalURLCount.json' ;
+const realfailed = 'cypress/fixtures/TotalFailCount.json' ;
+
+
+let totalUrlsExtracted = 0;
+let totalFailedUrls = 0;
+let totalUrlsExtractedReal = 0;
+
 
 
 
@@ -61,98 +70,6 @@ Cypress.Commands.add('Search_Actions', () => {
             
 //         }
 //     })
-Cypress.Commands.add('EmailSender',() => {
-    // const nodemailer = require('nodemailer');
-    // const fs = require('fs');
-    // const path = require('path');
-    
-    // // Email configuration
-    // const transporter = nodemailer.createTransport({
-    //   service: 'gmail', // e.g., use 'gmail' or your preferred email service
-    //   host:"smtp.gmail.com",
-    //   auth: {
-    //     user: 'shreeniwas.ukhale@comfortclick.co.uk',
-    //     pass: 'djhmf@#$820XL'
-    //   }
-    // });
-    
-    // // Get the most recent failed URLs file
-    // const directoryPath = path.join(failed_urls, 'cypress/fixtures');
-    // let recentFile;
-    
-    // fs.readdir(directoryPath, (err, files) => {
-    //   if (err) {
-    //     console.error('Unable to scan directory: ' + err);
-    //     process.exit(1);
-    //   }
-    
-    //   const failedFiles = files.filter(file => file.startsWith('failed_urls_'));
-    //   recentFile = failedFiles.sort((a, b) => {
-    //     return fs.statSync(path.join(directoryPath, b)).mtime.getTime() -
-    //            fs.statSync(path.join(directoryPath, a)).mtime.getTime();
-    //   })[0];
-    
-    //   if (recentFile) {
-    //     // Send the email with the recent failed URLs file as an attachment
-    //     const mailOptions = {
-    //       from: 'shreeniwas.ukhale@comfortclick.co.uk',
-    //       to: 'shreenivasukhale@gmail.com',
-    //       subject: 'Cypress Test - Failed URLs',
-    //       text: 'Please find the attached file containing the failed URLs.',
-    //       attachments: [
-    //         {
-    //           filename: recentFile,
-    //           path: path.join(directoryPath, recentFile)
-    //         }
-    //       ]
-    //     };
-    
-    //     transporter.sendMail(mailOptions, (error, info) => {
-    //       if (error) {
-    //         console.error(error);
-    //         process.exit(1);
-    //       }
-    //       console.log('Email sent: ' + info.response);
-    //       process.exit(0);
-    //     });
-    //   } else {
-    //     console.log('No failed URLs file found.');
-    //     process.exit(0);
-    //   }
-    // });
-
-//     const nodemailer = require("nodemailer");
-
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   host: "smtp.gmail.com",
-//   port: 465,
-//   secure: true, // Use `true` for port 465, `false` for all other ports
-//   auth: {
-//     user: "shreeniwas.ukhale@comfortclick.co.uk",
-//     pass: "djhmf@#$820XL",
-//   },
-// });
-
-// // async..await is not allowed in global scope, must use a wrapper
-// async function main() {
-//     // send mail with defined transport object
-//     const info = await transporter.sendMail({
-//       from: '"Shreenivas" <shreeniwas.ukhale@comfortclick.co.uk>', // sender address
-//       to: "shreenivasukhale@gmail.com", // list of receivers
-//       subject: "Hello ✔", // Subject line
-//       text: "Hello world?", // plain text body
-//       html: "<b>Hello world?</b>", // html body
-//     });
-  
-//     console.log("Message sent: %s", info.messageId);
-//     // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
-//   }
-  
-//   main().catch(console.error);
-
-
-})
 
 
 
@@ -388,11 +305,6 @@ Cypress.Commands.add('OrderTotalVerification_OnBasketPage',()=>{
 
 
 Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {   
-    // cy.get('.header-bottom [href]').each(($el) => {
-    //     const url = $el.prop('href');
-    //     categoryUrls.push(url);
-    //   });
-    //   //console.log(categoryUrls)
     cy.get('a').each($el => {
         const href = $el.attr('href');
         if (href) {
@@ -401,7 +313,9 @@ Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {
                 cy.readFile(urlsPath).then(data => {
                     if (!data.includes(href)) {
                         data.push(href);
+                        totalUrlsExtracted++
                         cy.writeFile(urlsPath, data);
+                        
                     }
                 });
             } 
@@ -412,7 +326,9 @@ Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {
                     cy.readFile(urlsPath).then(data => {
                         if (!data.includes(fullUrl)) {
                             data.push(fullUrl);
+                            totalUrlsExtracted++
                             cy.writeFile(urlsPath, data);
+                            
                         }
                     });
                 } else {
@@ -423,9 +339,36 @@ Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {
     });
 })
 
+Cypress.Commands.add('TotalExtractedUrl', () =>{
+     cy.readFile(realtotal).then(data =>{
+        const updatedData = Array.isArray(data) ? data : [];
+        
+        // Append the new count
+        updatedData.push(totalUrlsExtracted);
+        console.log(updatedData)
+        cy.writeFile(realtotal, updatedData, { log: false });
+        
+    })
+})
+
+Cypress.Commands.add('SumofTotal_Verified_URL', () =>{
+    //    const  TtotalUrlsExtractedReal = totalUrlsExtractedReal+totalUrlsExtracted
+    //         console.log("Total Extracted urls" + TtotalUrlsExtractedReal)
+    
+    cy.readFile(realtotal).then(data =>{
+         totalExtractedURLs = Array.isArray(data) ? data.reduce((acc, curr) => acc + curr, 0) : 0;
+        cy.wrap(totalExtractedURLs).as('totalSum');
+        console.log(totalExtractedURLs)
+        
+    })
+})
 
 
-Cypress.Commands.add('VerifyResponseCode', () =>{
+
+
+Cypress.Commands.add('VerifyResponseCode', (baseUrl) =>{
+
+
 
     const failedUrls = [];
     //const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -433,36 +376,73 @@ Cypress.Commands.add('VerifyResponseCode', () =>{
 
 
     cy.readFile(urlsPath).then(urls => {
-        urls.forEach(url => {
+        const requests = urls.map(url =>
           cy.request({
             url: url,
             failOnStatusCode: false
           }).then(response => {
             if (response.status !== 200) {
               //failedUrls.push({ url: url, status: response.status });
-              accumulatedFailedUrls.push({ url: url, status: response.status });
+              accumulatedFailedUrls.push({ Domain: baseUrl, url: url, status: response.status });
+              totalFailedUrls++
+              console.log(totalFailedUrls)
             }
-          });
-        });
+          })
+        );
+        //return Promise.all(requests);
       })
       .then(() => {
-        // Write the failed URLs to a file if there are any failures
-        //cy.writeFile(failedUrlsPath, failedUrls);
         cy.readFile(failedUrlsPath).then(existingFailedUrls => {
                     const updatedFailedUrls = existingFailedUrls.concat(accumulatedFailedUrls);
                     cy.writeFile(failedUrlsPath, updatedFailedUrls);
                   })
-
-
       });
 })
 
+
+Cypress.Commands.add('TotalFailedUrl', () =>{
+    cy.readFile(realfailed).then(data =>{
+        const updatedfailedData = Array.isArray(data) ? data : [];
+        
+        // Append the new count
+        updatedfailedData.push(totalFailedUrls);
+        console.log(updatedfailedData)
+        cy.writeFile(realfailed, updatedfailedData, { log: false });
+        
+    })
+})
+
+Cypress.Commands.add('SumofTotal_failed_URL', () =>{ 
+    cy.readFile(realfailed).then(data =>{
+        totalFailedURLs = Array.isArray(data) ? data.reduce((acc, curr) => acc + curr, 0) : 0;
+        cy.wrap(totalFailedURLs).as('totalSum');
+        console.log(totalFailedURLs)
+        
+    })
+})
+
 Cypress.Commands.add('SendEmail', () =>{
+    const activeLinks = totalExtractedURLs - totalFailedURLs;
+    const emailBody = `
+        <html>
+        <body style="font-family: Verdana;">
+            <p>Hi User,</p>
+            <p>We have completed our latest site health check using QA automation. Here are the results:</p>
+            <ul>
+                <li><b>Total Links Checked:</b> ${totalExtractedURLs}</li>
+                <li><b>Active Links:</b> ${activeLinks}</li>
+                <li><b>Links with Errors:</b> ${totalFailedURLs}</li>
+            </ul>
+            <p>Please review the information and let me know if you have any questions.</p>
+            <p>Best regards,<br>QA Team</p>
+        </body>
+        </html>
+    `;
+
     cy.task('sendMail', { 
-        subject: 'Cypress Test - Failed URLs', 
-        text: 'Please find the attached file containing the failed URLs.'
-      }).then(result => console.log(result));
-   
+        subject: 'Site Health Check Report', 
+        html: emailBody // Use `html` property for HTML content
+    }).then(result => console.log(result));  
 })
 
 
@@ -497,21 +477,10 @@ Cypress.Commands.add('VisitEachCategory', () => {
 
 
   
-Cypress.Commands.add('compareFilesAndWriteDifference', (file1, file2, diffFile) => {
-    cy.readFile(file1).then(array1 => {
-      cy.readFile(file2).then(array2 => {
-        // Find elements in array1 that are not in array2
-        const diff1 = array1.filter(x => !array2.includes(x));
-        // Find elements in array2 that are not in array1
-        const diff2 = array2.filter(x => !array1.includes(x));
-  
-        // Combine the differences
-        const differences = [...diff1, ...diff2];
-  
-        // Write differences to a new file
-        cy.writeFile(diffFile, differences);
-      });
-    });
+Cypress.Commands.add('Resetfiles', () => {
+    cy.writeFile(failedUrlsBasePath, []);
+    cy.writeFile(realtotal, []);
+    cy.writeFile(realfailed, []);
   });
   
   
