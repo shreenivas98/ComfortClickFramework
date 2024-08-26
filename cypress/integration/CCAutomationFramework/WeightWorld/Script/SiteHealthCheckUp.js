@@ -33,7 +33,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
    
 })
 /// cypress spec
-describe('Site Health Check',function(){
+describe('Site Health Check Up',function(){
 
    it('Collect and Verify URLs For Animigo UK',function(){
       cy.visit(this.data.AnimigoUK)

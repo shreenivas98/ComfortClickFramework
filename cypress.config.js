@@ -24,10 +24,10 @@ module.exports = defineConfig({
     AnimigoUk: "https://www.animigo.co.uk/"
   },
 
-  retries: {
-    runMode: 2,
-    openMode: 2,
-  },
+  // retries: {
+  //   runMode: 2,
+  //   openMode: 2,
+  // },
 
   e2e: {
     setupNodeEvents(on, config) {

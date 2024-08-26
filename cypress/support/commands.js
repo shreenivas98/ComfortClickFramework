@@ -21,6 +21,7 @@ const urlsPath = "cypress/fixtures/ExtractedURL's.json";
 const failedUrlsBasePath = 'cypress/fixtures/failed_urls.json';
 const realtotal = 'cypress/fixtures/TotalURLCount.json' ;
 const realfailed = 'cypress/fixtures/TotalFailCount.json' ;
+const snapshot = 'cypress/screenshots'
 
 
 let totalUrlsExtracted = 0;
@@ -460,6 +461,8 @@ Cypress.Commands.add('VisitEachCategory', () => {
             cy.visit(url, { failOnStatusCode: false });
             if (response.status !== 200) {
               cy.log(`Request failed for URL: ${url} with status ${response.status}`);
+              //cy.screenshot(snapshot)
+              //cy.clock()
               
           }
           expect(response.status).to.eq(200);

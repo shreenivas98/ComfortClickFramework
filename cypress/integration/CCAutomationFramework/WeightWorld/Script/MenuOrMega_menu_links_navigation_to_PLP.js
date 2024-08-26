@@ -10,7 +10,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 describe('Mega Menu Redirections',function(){
 
     this.beforeEach(function(){
-        cy.fixture('URLs').then(function(data){
+        cy.fixture('Domain_URLs').then(function(data){
             this.data=data
         })
     })
