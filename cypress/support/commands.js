@@ -518,7 +518,7 @@ Cypress.Commands.add('FiltersVerification', () => {
                                 // Add any additional commands you want to run
                             } else {
                                 // If #leftFilter .filter-blockTitle is not visible
-                                cy.log(`Filter block title is not visible on page: ${href}`);
+                                cy.log(`Filter block title is not visible on page: ${href}`); 
                             }
                         });
                     } else {
