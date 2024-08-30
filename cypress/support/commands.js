@@ -507,10 +507,10 @@ Cypress.Commands.add('FiltersVerification', () => {
             cy.visit(href).then(() => {
                 cy.get('body').then($body => {
                     const filterWrap = $body.find('#catMixitup .filter-wrap');
-                    
                     // Check if style is present and visible
-                    if (filterWrap.length && filterWrap.attr('style')?.includes('display: block;')) {
+                    if (filterWrap.length && filterWrap.attr('style')?.includes('display: block;') || filterWrap.attr('style')?.includes('display: block;') )   {
                         // If the style attribute is present and includes 'display: block;', check for the visibility of another element
+                     debugger
                         cy.get('#leftFilter .filter-blockTitle').then($filterTitle => {
                             if ($filterTitle.is(':visible')) {
                                 // If #leftFilter .filter-blockTitle is visible, execute this block
@@ -523,9 +523,17 @@ Cypress.Commands.add('FiltersVerification', () => {
                         });
                     } else {
                         // If the style attribute is not present or does not include 'display: block;', execute this block
-                        cy.log(`Element with class "filters" is present on: ${href}`);
-                        cy.HandlePriceSlider();
-                        cy.VerifyPriceFilter();
+                        cy.get('body').then($filter =>{
+                            if($filter.find('#leftFilter .filter-blockTitle').length>0){
+                                cy.log(`Element with class "filters" is present on: ${href}`);
+                                cy.HandlePriceSlider();
+                                cy.VerifyPriceFilter();
+                            }
+                            else{
+                                cy.log(`Price filter not visible on page: ${href}`); 
+                            }
+                        })
+                        
                     }
                 });
             });

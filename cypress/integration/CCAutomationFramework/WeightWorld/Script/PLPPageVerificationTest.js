@@ -25,38 +25,38 @@ describe('PLP Page Filters Validation',function(){
       cy.FiltersVerification()
     })
    
-    // it('Price Filter Test weight world UK',function(){
-    //   cy.visit(this.data.WeightWorldUK)  
-    //   cy.FiltersVerification()
-    // })
+    it('Price Filter Test weight world UK',function(){
+      cy.visit(this.data.WeightWorldUK)  
+      cy.FiltersVerification()
+    })
 
-    // it('Price Filter Test weight world FR',function(){
-    //   cy.visit(this.data.WeightWorldFR)  
-    //   cy.FiltersVerification()  
-    // })
+    it('Price Filter Test weight world FR',function(){
+      cy.visit(this.data.WeightWorldFR)  
+      cy.FiltersVerification()  
+    })
     
-    // it('Price Filter Test weight world IT',function(){
-    //   cy.visit(this.data.WeightWorldIT)  
-    //   cy.FiltersVerification() 
-    // })
+    it('Price Filter Test weight world IT',function(){
+      cy.visit(this.data.WeightWorldIT)  
+      cy.FiltersVerification() 
+    })
 
-    // it('Price Filter Test weight world DE',function(){
-    //   cy.visit(this.data.WeightWorldDE)  
-    //   cy.FiltersVerification() 
-    // })
+    it('Price Filter Test weight world DE',function(){
+      cy.visit(this.data.WeightWorldDE)  
+      cy.FiltersVerification() 
+    })
 
-    // it('Price Filter Test weight world DK',function(){
-    //   cy.visit(this.data.WeightWorldDK)  
-    //   cy.FiltersVerification()  
-    // })
+    it('Price Filter Test weight world DK',function(){
+      cy.visit(this.data.WeightWorldDK)  
+      cy.FiltersVerification()  
+    })
 
-    // it('Price Filter Test weight world SE',function(){
-    //   cy.visit(this.data.WeightWorldSE)  
-    //   cy.FiltersVerification()  
-    // })
+    it('Price Filter Test weight world SE',function(){
+      cy.visit(this.data.WeightWorldSE)  
+      cy.FiltersVerification()  
+    })
 
-    // it('Price Filter Test weight world NL',function(){
-    //   cy.visit(this.data.WeightWorldNL)  
-    //   cy.FiltersVerification()
-    // })
+    it('Price Filter Test weight world NL',function(){
+      cy.visit(this.data.WeightWorldNL)  
+      cy.FiltersVerification()
+    })
 })
