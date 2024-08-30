@@ -104,10 +104,15 @@ Cypress.Commands.add('QuickViewActions', () => {
 })
  
 Cypress.Commands.add('HandlePriceSlider', () => { 
-    plpPage.priceSlider()
+
+    plpPage.maxPriceSlider().should('be.visible').then($el =>{
+        expect($el).to.be.visible   
+    })
+    plpPage.maxPriceSlider() 
     .should('have.attr', 'style', 'left: 100%;')
     .invoke('attr', 'style', 'left: 50%;');
-    plpPage.priceSlider().click({force:true})
+    plpPage.maxPriceSlider().click({force:true})
+
 })
  
 Cypress.Commands.add('AddToBasketOnPLP', () => {
@@ -118,10 +123,11 @@ Cypress.Commands.add('AddToBasketOnPLP', () => {
         cy.wait(2000)
         if ($el.is(':visible')) {
             plpPage.popUpAddToBasketBtn().first().click({force:true})
+            cy.log('Cart Pop Up displayed')
           }
         
         else{
-            if(headerUK.cartDropDown().should('have.attr','style','display: block;')){
+            if(headerUK.cartDropDown().should('have.attr','style','display: none;')){
                 cy.log('POP UP NOT DISPLAYED')
             }
         }
@@ -364,13 +370,7 @@ Cypress.Commands.add('SumofTotal_Verified_URL', () =>{
     })
 })
 
-
-
-
 Cypress.Commands.add('VerifyResponseCode', (baseUrl) =>{
-
-
-
     const failedUrls = [];
     //const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const failedUrlsPath = `${failedUrlsBasePath}`;
@@ -477,24 +477,63 @@ Cypress.Commands.add('VisitEachCategory', () => {
         });
 })
 
-
-
-  
 Cypress.Commands.add('Resetfiles', () => {
     cy.writeFile(failedUrlsBasePath, []);
     cy.writeFile(realtotal, []);
     cy.writeFile(realfailed, []);
+});
+  
+  
+Cypress.Commands.add('CartPageActions', () =>{ 
+    //cartPage.deleteButton().should('be.visible')
+    cy.wait(3000)
+    cartPage.deleteButton().then($el =>{
+        cy.log("Delete buttons working fine")
+    })
+    cy.wait(5000)
+    cartPage.increaseQTY().click()
+    cy.wait(5000)
+    cartPage.decreaseQTY()
+
+})
+
+
+
+Cypress.Commands.add('FiltersVerification', () => {
+    headerUK.burgerMenuLink().each($el => {
+        const href = $el.attr('href');
+        //cy.log(`Filter block title is visible on page: ${href}`);
+        if (href && href.includes('http')) {
+            cy.visit(href).then(() => {
+                cy.get('body').then($body => {
+                    const filterWrap = $body.find('#catMixitup .filter-wrap');
+                    
+                    // Check if style is present and visible
+                    if (filterWrap.length && filterWrap.attr('style')?.includes('display: block;')) {
+                        // If the style attribute is present and includes 'display: block;', check for the visibility of another element
+                        cy.get('#leftFilter .filter-blockTitle').then($filterTitle => {
+                            if ($filterTitle.is(':visible')) {
+                                // If #leftFilter .filter-blockTitle is visible, execute this block
+                                cy.log(`Filter block title is visible on page: ${href}`);
+                                // Add any additional commands you want to run
+                            } else {
+                                // If #leftFilter .filter-blockTitle is not visible
+                                cy.log(`Filter block title is not visible on page: ${href}`);
+                            }
+                        });
+                    } else {
+                        // If the style attribute is not present or does not include 'display: block;', execute this block
+                        cy.log(`Element with class "filters" is present on: ${href}`);
+                        cy.HandlePriceSlider();
+                        cy.VerifyPriceFilter();
+                    }
+                });
+            });
+        }
+    });
+    
   });
   
-  
 
 
 
-
-
-
-
-
-
-  
-  

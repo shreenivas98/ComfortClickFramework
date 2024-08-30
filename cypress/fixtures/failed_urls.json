@@ -33,5 +33,25 @@
     "Domain": "https://www.weightworld.se/",
     "url": "https://www.weightworld.se//checkout/your-basket",
     "status": 503
+  },
+  {
+    "Domain": "https://www.animigo.co.uk",
+    "url": "https://www.comfortclick.co.uk/jobs.html",
+    "status": 404
+  },
+  {
+    "Domain": "https://www.animigo.it",
+    "url": "https://www.comfortclick.eu/jobs.html",
+    "status": 404
+  },
+  {
+    "Domain": "https://www.animigo.fr",
+    "url": "https://www.comfortclick.eu/jobs.html",
+    "status": 404
+  },
+  {
+    "Domain": "https://www.animigo.se",
+    "url": "https://www.comfortclick.eu/jobs.html",
+    "status": 404
   }
 ]

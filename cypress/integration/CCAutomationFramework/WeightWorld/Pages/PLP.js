@@ -18,7 +18,7 @@ class PLP{
         return cy.get('.quickView-info button.btn-secondary').click({force:true})
     }
 
-    priceSlider(){
+    maxPriceSlider(){
         return cy.get('.max-slider-handle')
     }
 

@@ -47,7 +47,14 @@ seventhParentCategory(){
 cartDropDown(){
     return cy.get(".cartDropBlock .dropdown-menu")
 }
+
+burgerMenuLink(){
+    return cy.get(".list-unstyled .list-inline-item a")
 }
+
+}
+
+
 
 
 export default HeaderUK;
