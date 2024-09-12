@@ -265,7 +265,7 @@ describe('Site Health Check Up',function(){
    //    cy.VerifyResponseCode(this.data.ShyToBuyNL) 
    //    cy.TotalFailedUrl()
    // })
-
+ 
    after(() => {
     cy.SumofTotal_Verified_URL()
     cy.SumofTotal_failed_URL()
