@@ -1,11 +1,23 @@
-// cypress/e2e/users.cy.js
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // Returning false here prevents Cypress from failing the test
+  return false;
+});
 
-const screennot = 'cypress/screenshots'
-
-describe('my tests', () => {
-    it('takes a screenshot', () => {
-      // screenshot will be saved as
-      // cypress/screenshots/users.cy.js/my tests -- takes a screenshot.png
-      cy.screenshot(screennot)
+beforeEach(function(){
+  cy.fixture('Domain_URLs').then(function(data){
+      //this.data=data
+      this.data=data
     })
-  })
+})
+
+describe('Solve reCAPTCHA using 2Captcha', () => {
+  it('solves the CAPTCHA and logs the result', () => {
+   
+  
+  
+  
+  
+  
+  
+  });
+});

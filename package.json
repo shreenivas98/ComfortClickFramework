@@ -17,7 +17,10 @@
   },
   "description": "",
   "dependencies": {
+    "@2captcha/captcha-solver": "^1.1.1",
+    "2captcha": "^3.0.5-2",
     "express": "^4.19.2",
+    "node-fetch": "^3.3.2",
     "nodemailer": "6.9.14",
     "nodemailer-sendgrid-transport": "^0.2.0"
   }

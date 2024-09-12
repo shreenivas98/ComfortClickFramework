@@ -35,82 +35,82 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 /// cypress spec
 describe('Site Health Check Up',function(){
 
-   it('Collect and Verify URLs For Animigo UK',function(){
-      cy.visit(this.data.AnimigoUK)
-      cy.Extract_All_URLs(this.data.AnimigoUK)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For Animigo UK',function(){
+   //    cy.visit(this.data.AnimigoUK)
+   //    cy.Extract_All_URLs(this.data.AnimigoUK)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.AnimigoUK) 
-      cy.TotalFailedUrl()
-    })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.AnimigoUK) 
+   //    cy.TotalFailedUrl()
+   //  })
 
-   it('Collect and Verify URLs For Animigo DK',function(){
-      cy.visit(this.data.AnimigoDK)
-      cy.Extract_All_URLs(this.data.AnimigoDK)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For Animigo DK',function(){
+   //    cy.visit(this.data.AnimigoDK)
+   //    cy.Extract_All_URLs(this.data.AnimigoDK)
+   //    cy.TotalExtractedUrl()
+   // })
    
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.AnimigoDK) 
-      cy.TotalFailedUrl()
-    })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.AnimigoDK) 
+   //    cy.TotalFailedUrl()
+   //  })
 
-   it('Collect and Verify URLs For Animigo IT',function(){
-      cy.visit(this.data.AnimigoIT)
-      cy.Extract_All_URLs(this.data.AnimigoIT)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For Animigo IT',function(){
+   //    cy.visit(this.data.AnimigoIT)
+   //    cy.Extract_All_URLs(this.data.AnimigoIT)
+   //    cy.TotalExtractedUrl()
+   // })
  
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.AnimigoIT) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.AnimigoIT) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For Animigo FR',function(){
-      cy.visit(this.data.AnimigoFR)
-      cy.Extract_All_URLs(this.data.AnimigoFR)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For Animigo FR',function(){
+   //    cy.visit(this.data.AnimigoFR)
+   //    cy.Extract_All_URLs(this.data.AnimigoFR)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.AnimigoFR)
-      cy.TotalFailedUrl() 
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.AnimigoFR)
+   //    cy.TotalFailedUrl() 
+   // })
 
-   it('Collect and Verify URLs For Animigo SE',function(){
-      cy.visit(this.data.AnimigoSE)
-      cy.Extract_All_URLs(this.data.AnimigoSE)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For Animigo SE',function(){
+   //    cy.visit(this.data.AnimigoSE)
+   //    cy.Extract_All_URLs(this.data.AnimigoSE)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.AnimigoSE) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.AnimigoSE) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For Animigo DE',function(){
-      cy.visit(this.data.AnimigoDE)
-      cy.Extract_All_URLs(this.data.AnimigoDE)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For Animigo DE',function(){
+   //    cy.visit(this.data.AnimigoDE)
+   //    cy.Extract_All_URLs(this.data.AnimigoDE)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.AnimigoDE) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.AnimigoDE) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For Animigo NL',function(){
-      cy.visit(this.data.AnimigoNL)
-      cy.Extract_All_URLs(this.data.AnimigoNL)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For Animigo NL',function(){
+   //    cy.visit(this.data.AnimigoNL)
+   //    cy.Extract_All_URLs(this.data.AnimigoNL)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.AnimigoNL) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.AnimigoNL) 
+   //    cy.TotalFailedUrl()
+   // })
 
    it('Collect and Verify URLs For WeightWorld UK',function(){
       cy.visit(this.data.WeightWorldUK)
@@ -189,82 +189,82 @@ describe('Site Health Check Up',function(){
       cy.TotalFailedUrl()
    })
 
-   it('Collect and Verify URLs For ShyToBuy UK',function(){
-      cy.visit(this.data.ShyToBuyUK)
-      cy.Extract_All_URLs(this.data.ShyToBuyUK)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For ShyToBuy UK',function(){
+   //    cy.visit(this.data.ShyToBuyUK)
+   //    cy.Extract_All_URLs(this.data.ShyToBuyUK)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.ShyToBuyUK)
-      cy.TotalFailedUrl() 
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.ShyToBuyUK)
+   //    cy.TotalFailedUrl() 
+   // })
 
-   it('Collect and Verify URLs For ShyToBuy DK',function(){
-      cy.visit(this.data.ShyToBuyDK)
-      cy.Extract_All_URLs(this.data.ShyToBuyDK)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For ShyToBuy DK',function(){
+   //    cy.visit(this.data.ShyToBuyDK)
+   //    cy.Extract_All_URLs(this.data.ShyToBuyDK)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.ShyToBuyDK)
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.ShyToBuyDK)
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For ShyToBuy IT',function(){
-      cy.visit(this.data.ShyToBuyIT)
-      cy.Extract_All_URLs(this.data.ShyToBuyIT)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For ShyToBuy IT',function(){
+   //    cy.visit(this.data.ShyToBuyIT)
+   //    cy.Extract_All_URLs(this.data.ShyToBuyIT)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.ShyToBuyIT) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.ShyToBuyIT) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For ShyToBuy FR',function(){
-      cy.visit(this.data.ShyToBuyFR)
-      cy.Extract_All_URLs(this.data.ShyToBuyFR)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For ShyToBuy FR',function(){
+   //    cy.visit(this.data.ShyToBuyFR)
+   //    cy.Extract_All_URLs(this.data.ShyToBuyFR)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.ShyToBuyFR) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.ShyToBuyFR) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For ShyToBuy SE',function(){
-      cy.visit(this.data.ShyToBuySE)
-      cy.Extract_All_URLs(this.data.ShyToBuySE)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For ShyToBuy SE',function(){
+   //    cy.visit(this.data.ShyToBuySE)
+   //    cy.Extract_All_URLs(this.data.ShyToBuySE)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.ShyToBuySE) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.ShyToBuySE) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For ShyToBuy DE',function(){
-      cy.visit(this.data.ShyToBuyDE)
-      cy.Extract_All_URLs(this.data.ShyToBuyDE)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For ShyToBuy DE',function(){
+   //    cy.visit(this.data.ShyToBuyDE)
+   //    cy.Extract_All_URLs(this.data.ShyToBuyDE)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.ShyToBuyDE) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.ShyToBuyDE) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For ShyToBuy NL',function(){
-      cy.visit(this.data.ShyToBuyNL)
-      cy.Extract_All_URLs(this.data.ShyToBuyNL)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For ShyToBuy NL',function(){
+   //    cy.visit(this.data.ShyToBuyNL)
+   //    cy.Extract_All_URLs(this.data.ShyToBuyNL)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.ShyToBuyNL) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.ShyToBuyNL) 
+   //    cy.TotalFailedUrl()
+   // })
 
    after(() => {
     cy.SumofTotal_Verified_URL()

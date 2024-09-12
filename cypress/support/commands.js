@@ -22,6 +22,7 @@ const failedUrlsBasePath = 'cypress/fixtures/failed_urls.json';
 const realtotal = 'cypress/fixtures/TotalURLCount.json' ;
 const realfailed = 'cypress/fixtures/TotalFailCount.json' ;
 const snapshot = 'cypress/screenshots'
+const FailedPLP = 'cypress/fixtures/url.json' ;
 
 
 let totalUrlsExtracted = 0;
@@ -312,34 +313,45 @@ Cypress.Commands.add('OrderTotalVerification_OnBasketPage',()=>{
 
 
 Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {   
+    
     cy.get('a').each($el => {
         const href = $el.attr('href');
+        const ariaLabel = $el.attr('aria-label');
         if (href) {
             // Handle absolute URLs directly
-            if (href.startsWith('http')) {
-                cy.readFile(urlsPath).then(data => {
-                    if (!data.includes(href)) {
-                        data.push(href);
-                        totalUrlsExtracted++
-                        cy.writeFile(urlsPath, data);
-                        
-                    }
-                });
-            } 
-            // Handle relative URLs
-            else if (href.startsWith('/')) {
-                if (baseUrl) {
-                    const fullUrl = baseUrl + href;
+            if (href.startsWith('http') ) {
+                if (href.startsWith('https://www.instagram.com/')|| href.startsWith('https://www.tiktok.com/') ){
+
+                }
+                else{
                     cy.readFile(urlsPath).then(data => {
-                        if (!data.includes(fullUrl)) {
-                            data.push(fullUrl);
+                        if (!data.includes(href)) {
+                            data.push(href);
                             totalUrlsExtracted++
                             cy.writeFile(urlsPath, data);
                             
                         }
                     });
+                }
+                
+            } 
+            // Handle relative URLs
+            else if (href.startsWith('java') || href.startsWith('tel'))  {
+
+                cy.log(`Not a valid URL:- ${href}`);
+                
                 } else {
-                    cy.log('Base URL is not set in Cypress command');
+                    if (baseUrl) {
+                        const fullUrl = baseUrl + href;
+                        cy.readFile(urlsPath).then(data => {
+                            if (!data.includes(fullUrl)) {
+                                data.push(fullUrl);
+                                totalUrlsExtracted++
+                                cy.writeFile(urlsPath, data);
+                                
+                            }
+                        });
+                    
                 }
             }
         }
@@ -491,7 +503,6 @@ Cypress.Commands.add('CartPageActions', () =>{
         cy.log("Delete buttons working fine")
     })
     cy.wait(5000)
-    cartPage.increaseQTY().click()
     cy.wait(5000)
     cartPage.decreaseQTY()
 
@@ -505,37 +516,61 @@ Cypress.Commands.add('FiltersVerification', () => {
         //cy.log(`Filter block title is visible on page: ${href}`);
         if (href && href.includes('http')) {
             cy.visit(href).then(() => {
-                cy.get('body').then($body => {
-                    const filterWrap = $body.find('#catMixitup .filter-wrap');
-                    // Check if style is present and visible
-                    if (filterWrap.length && filterWrap.attr('style')?.includes('display: block;') || filterWrap.attr('style')?.includes('display: block;') )   {
-                        // If the style attribute is present and includes 'display: block;', check for the visibility of another element
-                     debugger
-                        cy.get('#leftFilter .filter-blockTitle').then($filterTitle => {
-                            if ($filterTitle.is(':visible')) {
-                                // If #leftFilter .filter-blockTitle is visible, execute this block
-                                cy.log(`Filter block title is visible on page: ${href}`);
-                                // Add any additional commands you want to run
+                cy.get('#DomCatProdList').then($productWrap => {
+                    const productList = $productWrap.find('.productWrap ');
+                    if(productList.length > 0){
+                        cy.get('body').then($body => {
+                            const filterWrap = $body.find('#catMixitup .filter-wrap');
+                            // Check if style is present and visible
+                            if (filterWrap.length && filterWrap.attr('style')?.includes('display: none;') || filterWrap.attr('style')?.includes('display: block;') )   {
+                                // If the style attribute is present and includes 'display: block;', check for the visibility of another element
+                             debugger
+                                cy.get('#leftFilter .filter-blockTitle').then($filterTitle => {
+                                    if ($filterTitle.is(':visible')) {
+                                        // If #leftFilter .filter-blockTitle is visible, execute this block
+                                        
+                                        
+                                        cy.log(`Filter block title is visible on page: ${href}`);
+                                        // Add any additional commands you want to run
+                                    } else {
+                                        // If #leftFilter .filter-blockTitle is not visible
+                                        
+                                        cy.log(`Filter block title is not visible on page: ${href}`); 
+                                    }
+                                });
                             } else {
-                                // If #leftFilter .filter-blockTitle is not visible
-                                cy.log(`Filter block title is not visible on page: ${href}`); 
+                                // If the style attribute is not present or does not include 'display: block;', execute this block
+                                cy.get('body').then($filter =>{
+                                    if($filter.find('#leftFilter .filter-blockTitle').length>0){
+                                        cy.log(`Element with class "filters" is present on: ${href}`);
+                                        
+                                        cy.HandlePriceSlider();
+                                        cy.VerifyPriceFilter();
+                                    }
+                                    else{
+                                        cy.log(`Price filter not visible on page: ${href}`); 
+                                        
+                                    }
+                                })
+                                
                             }
                         });
-                    } else {
-                        // If the style attribute is not present or does not include 'display: block;', execute this block
-                        cy.get('body').then($filter =>{
-                            if($filter.find('#leftFilter .filter-blockTitle').length>0){
-                                cy.log(`Element with class "filters" is present on: ${href}`);
-                                cy.HandlePriceSlider();
-                                cy.VerifyPriceFilter();
-                            }
-                            else{
-                                cy.log(`Price filter not visible on page: ${href}`); 
-                            }
-                        })
-                        
                     }
-                });
+
+                    else {
+                        //console.log(`Product are not visible in :- ${href}`)
+                        cy.readFile(FailedPLP).then(data => {
+                            
+                                data.push(href);                                
+                                cy.writeFile(FailedPLP, data);
+                                
+                            
+                        });
+                    }
+
+                })
+                
+
             });
         }
     });

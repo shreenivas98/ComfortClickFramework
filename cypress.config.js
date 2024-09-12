@@ -10,10 +10,10 @@ const emailConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'email_Co
 
 module.exports = defineConfig({
 
-  "defaultCommandTimeout": 10000, // Set default command timeout to 10 seconds
+  "defaultCommandTimeout": 1000, // Set default command timeout to 10 seconds
   "pageLoadTimeout": 60000,       // Set page load timeout to 60 seconds
   "requestTimeout": 5000,         // Set request timeout to 5 seconds
-  "responseTimeout": 30000,
+  "responseTimeout": 10000,
    
   projectId: "rfnr3e", 
   reporter: 'cypress-mochawesome-reporter',
@@ -97,9 +97,9 @@ module.exports = defineConfig({
       });
     },
 
-    specPattern: 'cypress/integration/CCAutomationFramework/WeightWorld/Script/*.js',
+    specPattern: 'cypress/integration/CCAutomationFramework/*/*/*.js',
     
-    defaultCommandTimeout: 60000, // Increase the default command timeout for Cypress
+    defaultCommandTimeout: 6000, // Increase the default command timeout for Cypress
   },
   viewportHeight: 900,
   viewportWidth: 1280,

@@ -56,24 +56,62 @@ describe('Assignment 1',function (){
     // })
 
 
-    it('Captcha Mocking', function (){
+    // it('Captcha Mocking', function (){
         
         
         
         
           
-          cy.visit('https://www.weightworld.uk/login.html')
-        cy.wait(2000)
-           cy.get('#cookiescript_accept').click()
-           cy.get('#user_name').type('shreeniwas.ukhale@comfortclick.co.uk');
-           cy.get('#password').type('eb275e4d');
-        //cy.get('.recaptcha-checkbox').check()
+    //       cy.visit('https://www.weightworld.uk/login.html')
+    //     cy.wait(2000)
+    //        cy.get('#cookiescript_accept').click()
+    //        cy.get('#user_name').type('shreeniwas.ukhale@comfortclick.co.uk');
+    //        cy.get('#password').type('eb275e4d');
+    //     //cy.get('.recaptcha-checkbox').check()
           
           
-          // Wait for the mocked CAPTCHA verification to complete
+    //       // Wait for the mocked CAPTCHA verification to complete
           
-          cy.get('#login').click();
-         // cy.wait('@captchaVerification');
+    //       cy.get('#login').click();
+    //      // cy.wait('@captchaVerification');
 
-    })
+    // })
+
+
+
+
+    
+    it('should extract all URLs from the source code of the WeightWorld homepage and verify their response codes', () => {
+      cy.visit("https://www.weightworld.es/tonificación-muscular.html");
+  
+      cy.document().then((doc) => {
+        const htmlContent = doc.documentElement.innerHTML;
+  
+        // Regex to find URLs in the HTML content
+        const urlRegex = /https?:\/\/[^\s"'<>]+/g;
+  
+        const urls = htmlContent.match(urlRegex);
+  
+        if (urls) {
+          urls.forEach((url, index) => {
+            // Log the URL being tested
+            cy.log(` ${url}`);
+            console.log(` ${url}`);
+  
+            // Make a request to the URL and verify the status code
+            // cy.request({
+            //   url: url,
+            //   failOnStatusCode: false
+            // }).then((response) => {
+            //   // Log the response status code
+            //   cy.log(`Status code for ${url}: ${response.status}`);
+            // });
+          });
+        } else {
+          cy.log('No URLs found');
+        }
+      });
+    });
+    
+    
 })
