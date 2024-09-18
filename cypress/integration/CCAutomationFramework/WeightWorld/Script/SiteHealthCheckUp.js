@@ -189,6 +189,17 @@ describe('Site Health Check Up',function(){
       cy.TotalFailedUrl()
    })
 
+   it('Collect and Verify URLs For WeightWorl ES',function(){
+      cy.visit(this.data.WeightWorldES)
+      cy.Extract_All_URLs(this.data.WeightWorldES)
+      cy.TotalExtractedUrl()
+   })
+
+   it('Verify URLs return 200 status code and save failed URLs',function(){
+      cy.VerifyResponseCode(this.data.WeightWorldUK) 
+      cy.TotalFailedUrl()
+   })
+
    // it('Collect and Verify URLs For ShyToBuy UK',function(){
    //    cy.visit(this.data.ShyToBuyUK)
    //    cy.Extract_All_URLs(this.data.ShyToBuyUK)

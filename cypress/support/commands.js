@@ -319,7 +319,7 @@ Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {
         const ariaLabel = $el.attr('aria-label');
         if (href) {
             // Handle absolute URLs directly
-            if (href.startsWith('http') ) {
+            if (href.startsWith('http') ||href.startsWith(' ') ) {
                 if (href.startsWith('https://www.instagram.com/')|| href.startsWith('https://www.tiktok.com/') ){
 
                 }
@@ -340,7 +340,20 @@ Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {
 
                 cy.log(`Not a valid URL:- ${href}`);
                 
-                } else {
+                } 
+            else if (href.startsWith('/')){
+                let croppedurl = href.slice('1')
+                const fullCroppedURL = baseUrl + croppedurl;
+                console.log(fullCroppedURL)
+                cy.readFile(urlsPath).then(data => {
+                    if (!data.includes(fullCroppedURL)) {
+                        data.push(fullCroppedURL);
+                        totalUrlsExtracted++
+                        cy.writeFile(urlsPath, data);
+                    }
+                });
+            }   
+            else {
                     if (baseUrl) {
                         const fullUrl = baseUrl + href;
                         cy.readFile(urlsPath).then(data => {
@@ -348,7 +361,6 @@ Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {
                                 data.push(fullUrl);
                                 totalUrlsExtracted++
                                 cy.writeFile(urlsPath, data);
-                                
                             }
                         });
                     
@@ -508,15 +520,13 @@ Cypress.Commands.add('CartPageActions', () =>{
 
 })
 
-
-
 Cypress.Commands.add('FiltersVerification', () => {
     headerUK.burgerMenuLink().each($el => {
         const href = $el.attr('href');
         //cy.log(`Filter block title is visible on page: ${href}`);
         if (href && href.includes('http')) {
             cy.visit(href).then(() => {
-                cy.get('#DomCatProdList').then($productWrap => {
+                cy.get('body').then($productWrap => {
                     const productList = $productWrap.find('.productWrap ');
                     if(productList.length > 0){
                         cy.get('body').then($body => {
