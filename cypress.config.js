@@ -11,9 +11,9 @@ const emailConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'email_Co
 module.exports = defineConfig({
 
   "defaultCommandTimeout": 1000, // Set default command timeout to 10 seconds
-  "pageLoadTimeout": 60000,       // Set page load timeout to 60 seconds
+  "pageLoadTimeout": 6000,       // Set page load timeout to 60 seconds
   "requestTimeout": 5000,         // Set request timeout to 5 seconds
-  "responseTimeout": 10000,
+  "responseTimeout": 6000,
    
   projectId: "rfnr3e", 
   reporter: 'cypress-mochawesome-reporter',
@@ -93,6 +93,12 @@ module.exports = defineConfig({
               }
             });
           });
+        }
+      });
+      on('task', {
+        log(message) {
+          console.log(message);
+          return null;
         }
       });
     },
