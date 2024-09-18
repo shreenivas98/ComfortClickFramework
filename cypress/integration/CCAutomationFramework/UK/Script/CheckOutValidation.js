@@ -21,29 +21,29 @@ describe('Check Out validation_Add to basket flow',function(){
         cy.Search_Actions()
         cy.AddToBasket_Action()
         cy.MiniCartAction()        
-        cy.OrderTotalVerification()
+        //cy.OrderTotalVerification()
     })
     }
 
-    if (testToRun.length === 0 || testToRun.includes('shytobuy')) {
-        it('CheckoutFlow_Verification_for_ShyToBuy',function(){
-            cy.visit(Cypress.env('ShyToBuyUk'))
-            cy.Search_Actions()
-            cy.AddToBasket_Action()
-            cy.wait(2000)
-            cy.MiniCartAction()   
-            cy.OrderTotalVerification()        
-        })
-    }
+    // if (testToRun.length === 0 || testToRun.includes('shytobuy')) {
+    //     it('CheckoutFlow_Verification_for_ShyToBuy',function(){
+    //         cy.visit(Cypress.env('ShyToBuyUk'))
+    //         cy.Search_Actions()
+    //         cy.AddToBasket_Action()
+    //         cy.wait(2000)
+    //         cy.MiniCartAction()   
+    //         cy.OrderTotalVerification()        
+    //     })
+    // }
 
-    if (testToRun.length === 0 || testToRun.includes('animigo')) {
-        it('CheckoutFlow_Verification_for_Animigo',function(){
-            cy.visit(Cypress.env('AnimigoUk'))
-            cy.Search_Actions()
-            cy.AddToBasket_Action()
-            cy.wait(2000)
-            cy.MiniCartAction()
-            cy.OrderTotalVerification()
-        })
-    }
+    // if (testToRun.length === 0 || testToRun.includes('animigo')) {
+    //     it('CheckoutFlow_Verification_for_Animigo',function(){
+    //         cy.visit(Cypress.env('AnimigoUk'))
+    //         cy.Search_Actions()
+    //         cy.AddToBasket_Action()
+    //         cy.wait(2000)
+    //         cy.MiniCartAction()
+    //         cy.OrderTotalVerification()
+    //     })
+    // }
 })

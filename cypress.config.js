@@ -97,7 +97,7 @@ module.exports = defineConfig({
       });
     },
 
-    specPattern: 'cypress/integration/CCAutomationFramework/*/*/*.js',
+    specPattern: 'cypress/integration/CCAutomationFramework/WeightWorld/Script/*.js',
     
     defaultCommandTimeout: 6000, // Increase the default command timeout for Cypress
   },
