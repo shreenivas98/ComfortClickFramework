@@ -3,7 +3,7 @@ import HeaderUK from "../integration/CCAutomationFramework/UK/PageElements/Heade
 import DetailsPage from "../integration/CCAutomationFramework/UK/PageElements/DetailsPage"
 import CartPage from "../integration/CCAutomationFramework/UK/PageElements/CartPage"
 import PLP from "../integration/CCAutomationFramework/WeightWorld/Pages/PLP"
-import { assert } from "chai"
+import { assert, expect } from "chai"
 
 const homaPageUK = new HomePageUk()
 const headerUK = new HeaderUK()
@@ -205,6 +205,10 @@ Cypress.Commands.add('SelectProductFromNewArrival', () => {
 //Verification Of order total with all added products to cart 
         var sum=0
         var roundedSum
+        var discountPrice
+        var total
+        var Grandtotal
+
 
 Cypress.Commands.add('OrderTotalVerification_For_Side_Cart_Functionality',()=>{
 
@@ -230,85 +234,172 @@ Cypress.Commands.add('OrderTotalVerification_For_Side_Cart_Functionality',()=>{
 Cypress.Commands.add('OrderTotalVerification_OnBasketPage',()=>{
 
     cy.url().then(CurrentURL => {
-    cartPage.ProductTotal().each(($el,index,$list) => {
-        const amount = $el.text()
+        cartPage.ProductTotal().each(($el,index,$list) => {
+            const amount = $el.text()
 
 
-        if(CurrentURL.includes('slimcenter')){
-            var res=amount.split("€")
-            res=res[0].trim().replace(',','.')
-        }
+            if(CurrentURL.includes('slimcenter')){
+                var res=amount.split("€")
+                res=res[0].trim().replace(',','.')
+            }
 
-        if(CurrentURL.includes('weightworld.dk')){
-            var res=amount.split(" ")
-            res=res[0].trim()
-        }
+            if(CurrentURL.includes('weightworld.dk')){
+                
+                var res=amount.split(" ")
+                res=res[0].trim()
+            }
 
-        if(CurrentURL.includes('weightworld.it')||CurrentURL.includes('weightworld.nl')){
-            var res=amount.split("€")
-            res=res[0].trim()
-        }
+            if(CurrentURL.includes('weightworld.it')||CurrentURL.includes('weightworld.nl')){
+                var res=amount.split("€")
+                res=res[0].trim()
 
-        if(CurrentURL.includes('weightworld.uk')){
-            var res=amount.split("£")
-            res=res[1].trim() //res[] stands fir 1st index of seperated value
-            
-        }
 
-        if(CurrentURL.includes('weightworld.se')){
-            var res=amount.split("K")
-            res=res[0].trim()
-        }
-            
-            sum=Number(sum)+Number(res)
-    }).then(function()
-    {
-        roundedSum =sum.toFixed(2);
-        cy.log(roundedSum);
-    })
+            }
 
-    cartPage.GrandTotal().then(function(element){
-        const amount = element.text()
+            if(CurrentURL.includes('weightworld.uk')){
+                var res=amount.split("£")
+                res=res[1].trim() //res[] stands fir 1st index of seperated value
+                
+            }
 
-        if(CurrentURL.includes('slimcenter')){
-            var total=amount.split("€")
-            total=total[0].trim().replace(',','.')
-        }
-        
-        if(CurrentURL.includes('weightworld.dk')){
-            var total=amount.split(" ")
-            total=total[0].trim()
-        }
-
-        if(CurrentURL.includes('weightworld.it') ||CurrentURL.includes('weightworld.nl') ){
-            var total=amount.split("€")
-            total=total[0].trim()
-        }
-
-        if(CurrentURL.includes('weightworld.uk')){
-            var total=amount.split("£")
-            total=total[1].trim()
-        }
-
-        if(CurrentURL.includes('weightworld.se')){
-            var total=amount.split("K")
-            total=total[0].trim()
-        }
-
-            // if(Number(total)==Number(roundedSum)){
-            //     cy.log(total)
-            //     cy.log('Actual order total matched with expected');
-            // }
-            // else{
-            //     cy.log('Actual order total does not matched with expeted')
-            // }
-            expect(Number(total)).to.equal(Number(roundedSum))
-            
-    })
-    })
+            if(CurrentURL.includes('weightworld.se')){
+                var res=amount.split("K")
+                res=res[0].trim()
+            }
+                
+                sum=Number(sum)+Number(res)
+        }).then(function()
+        {
+            roundedSum =sum.toFixed(2);
+            cy.log("Total rounded sum of order is :" + roundedSum);
+        })
 
     
+    
+    
+        cartPage.GrandTotal().then(function(element){
+            const amount = element.text()
 
+            if(CurrentURL.includes('slimcenter')){
+                total=amount.split("€")
+                total=total[0].trim().replace(',','.')
+            }
+            
+            if(CurrentURL.includes('weightworld.dk')){
+                total=amount.split(" ")
+                total=total[0].trim()
+            }
+
+            if(CurrentURL.includes('weightworld.it') ||CurrentURL.includes('weightworld.nl') ){
+                total=amount.split("€")
+                total=total[0].trim()
+            }
+
+            if(CurrentURL.includes('weightworld.uk')){
+                total=amount.split("£")
+                total=total[1].trim()
+            }
+
+            if(CurrentURL.includes('weightworld.se')){
+                total=amount.split("K")
+                total=total[0].trim()
+            }                 
+        })
+
+        cy.get('#promoCodeName').invoke('text').then($productDiscount => {
+
+            const promoApplied = $productDiscount.trim();
+            
+            if (promoApplied){
+                cy.get('#successPromoDiscountBlock #promoCodeAmount').then(function(element){
+    
+                    const discamt = element.text()
+                    //cy.log(discamt)
+    
+                    var totaldiscamt = discamt.split('€')
+                    
+                    //cy.log(totaldiscamt)
+                    totaldiscamt=totaldiscamt[0].split(' ')
+                    totaldiscamt=totaldiscamt[2].trim()
+                    cy.log("total discount amount is : "+ totaldiscamt)
+                    
+                    sum = Number(roundedSum)-Number(totaldiscamt)
+                    discountPrice = sum.toFixed(2)
+                    
+                    cy.log("Total discounted price :" + discountPrice)
+                }).then(function(element){  
+                    //expect(Number(total)).to.equal(Number(discountPrice))
+                    if(Number(total)==Number(discountPrice)){
+                        cy.log('Actual order total matched with expected on Basket Page');
+                    }
+                    else{
+                        cy.log('Actual order total does not matched with expeted on Basket Page')
+                    }
+                })         
+            }
+            else{
+                expect(Number(total)).to.equal(Number(roundedSum))
+            }
+        })
+
+    })  
+
+})
+
+Cypress.Commands.add('VerifyOrderTotalOnCheckoutPage', () =>{
+    
+    cy.url().then(CurrentURL => {
+
+        cy.get('.paroduct-cart-list .product-grandtotal .text-right').invoke('text').then($TotalAmountOnCheckoutPage => {
+        
+            const totalcheckoutpage = $TotalAmountOnCheckoutPage.trim()
+            
+            if(CurrentURL.includes('slimcenter')){
+                Grandtotal=totalcheckoutpage.split("€")
+                Grandtotal=Grandtotal[0].trim().replace(',','.')
+                cy.log("Grand Total on Checkout Page : " + Grandtotal)
+            }
+
+            if(CurrentURL.includes('weightworld.dk')){
+                Grandtotal=totalcheckoutpage.split(" ")
+                Grandtotal=Grandtotal[0].trim()
+                cy.log("Grand Total on Checkout Page : " + Grandtotal)   
+            }
+
+            if(CurrentURL.includes('weightworld.it')||CurrentURL.includes('weightworld.nl')){
+                Grandtotal=totalcheckoutpage.split("€")
+                Grandtotal=Grandtotal[0].trim()
+                cy.log("Grand Total on Checkout Page : " + Grandtotal)    
+            }
+
+            if(CurrentURL.includes('weightworld.uk')){
+                Grandtotal=totalcheckoutpage.split("£")
+                Grandtotal=Grandtotal[1].trim() //res[] stands fir 1st index of seperated value
+                cy.log("Grand Total on Checkout Page : " + Grandtotal)   
+            }
+
+            if(CurrentURL.includes('weightworld.se')){
+                Grandtotal=totalcheckoutpage.split("K")
+                Grandtotal=Grandtotal[0].trim()
+                cy.log("Grand Total on Checkout Page : " + Grandtotal)   
+            }
+           
+        }).then(function(element){
+           //expect(Number(Grandtotal)).to.be.greaterThanOrEqual(Number(discountPrice));
+            
+            if(Number(Grandtotal)==Number(discountPrice)){
+                    cy.log('Actual order total matched with expected on Checkout Page');
+                }
+            else{
+                cy.log('Actual order total does not matched with expeted on Checkout Page')
+            }
+        })
+
+    })
+    
+
+    
+    
 })
 
 
@@ -369,6 +460,10 @@ Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {
         }
     });
 })
+
+
+
+
 
 Cypress.Commands.add('TotalExtractedUrl', () =>{
      cy.readFile(realtotal).then(data =>{

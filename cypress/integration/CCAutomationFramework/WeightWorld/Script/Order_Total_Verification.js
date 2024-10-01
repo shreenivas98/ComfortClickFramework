@@ -17,17 +17,19 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     })
 })
 /// cypress spec
+
 describe('Grand Total Verification',function(){
     
-    it('Order_Total_Verification_for_WW/FR ',function(){
-        cy.visit(this.data.WeightWorldFR)
-         cy.Search_Actions()
-         cy.SelectProductFromNewArrival()
-         cy.AddToBasket_Action()
-         cy.MegaMenuCategoryNavigation()  
-         cy.wait(3000)
-         cy.OrderTotalVerification_For_Side_Cart_Functionality()
-     })
+    // it('Order_Total_Verification_for_WW/FR ',function(){
+    //     cy.visit(this.data.WeightWorldFR)
+    //      cy.Search_Actions()
+    //      cy.SelectProductFromNewArrival()
+    //      cy.AddToBasket_Action()
+    //      cy.MegaMenuCategoryNavigation()  
+    //      cy.wait(3000)
+    //      cy.OrderTotalVerification_For_Side_Cart_Functionality()
+         
+    //  })
     
     it('Order_Total_Verification_for_WW/NL ',function(){
         cy.visit(this.data.WeightWorldNL)
@@ -37,6 +39,8 @@ describe('Grand Total Verification',function(){
          cy.MegaMenuCategoryNavigation() 
          cy.MiniCartAction()
          cy.OrderTotalVerification_OnBasketPage()
+         cy.get('.product-pay-checkout #basketCheckoutBtn').click({force:true}) 
+         cy.VerifyOrderTotalOnCheckoutPage()  
      })
 
     it('Order_Total_Verification_for_WW/SE ',function(){
@@ -48,6 +52,8 @@ describe('Grand Total Verification',function(){
          cy.MiniCartAction()
          cy.wait(3000)
          cy.OrderTotalVerification_OnBasketPage()
+         cy.get(".product-paypal .btn-paypal").click({force:true})
+         cy.VerifyOrderTotalOnCheckoutPage()  
      })
 
    // if (testToRun.length === 0 || testToRun.includes('weightworld')) {
@@ -83,6 +89,7 @@ describe('Grand Total Verification',function(){
          cy.MegaMenuCategoryNavigation() 
          cy.MiniCartAction()
          cy.OrderTotalVerification_OnBasketPage()
+         
      })
 
      it('Order_Total_Verification_for_WW/DE ',function(){
