@@ -42,6 +42,7 @@ fifthParentCategory(){
 
 seventhParentCategory(){
     return cy.get("#menu ul.list-unstyled li:nth-child(7).list-inline-item [aria-label][title]").click({force:true})
+    return 'abc';
 }
 
 cartDropDown(){

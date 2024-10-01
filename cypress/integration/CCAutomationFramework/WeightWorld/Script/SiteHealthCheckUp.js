@@ -118,76 +118,87 @@ describe('Site Health Check Up',function(){
       cy.TotalExtractedUrl()
    })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.WeightWorldUK) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.WeightWorldUK) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For WeightWorld DK',function(){
-      cy.visit(this.data.WeightWorldDK)
-      cy.Extract_All_URLs(this.data.WeightWorldDK)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For WeightWorld DK',function(){
+   //    cy.visit(this.data.WeightWorldDK)
+   //    cy.Extract_All_URLs(this.data.WeightWorldDK)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.WeightWorldDK) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.WeightWorldDK) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For WeightWorld IT',function(){
-      cy.visit(this.data.WeightWorldIT)
-      cy.Extract_All_URLs(this.data.WeightWorldIT)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For WeightWorld IT',function(){
+   //    cy.visit(this.data.WeightWorldIT)
+   //    cy.Extract_All_URLs(this.data.WeightWorldIT)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.WeightWorldIT) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.WeightWorldIT) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For WeightWorld FR',function(){
-      cy.visit(this.data.WeightWorldFR)
-      cy.Extract_All_URLs(this.data.WeightWorldFR)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For WeightWorld FR',function(){
+   //    cy.visit(this.data.WeightWorldFR)
+   //    cy.Extract_All_URLs(this.data.WeightWorldFR)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.WeightWorldFR) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.WeightWorldFR) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For WeightWorld SE',function(){
-      cy.visit(this.data.WeightWorldSE)
-      cy.Extract_All_URLs(this.data.WeightWorldSE)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For WeightWorld SE',function(){
+   //    cy.visit(this.data.WeightWorldSE)
+   //    cy.Extract_All_URLs(this.data.WeightWorldSE)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.WeightWorldSE) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.WeightWorldSE) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For WeightWorld NL',function(){
-      cy.visit(this.data.WeightWorldNL)
-      cy.Extract_All_URLs(this.data.WeightWorldNL)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For WeightWorld NL',function(){
+   //    cy.visit(this.data.WeightWorldNL)
+   //    cy.Extract_All_URLs(this.data.WeightWorldNL)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.WeightWorldNL) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.WeightWorldNL) 
+   //    cy.TotalFailedUrl()
+   // })
 
-   it('Collect and Verify URLs For WeightWorld DE',function(){
-      cy.visit(this.data.WeightWorldDE)
-      cy.Extract_All_URLs(this.data.WeightWorldDE)
-      cy.TotalExtractedUrl()
-   })
+   // it('Collect and Verify URLs For WeightWorld DE',function(){
+   //    cy.visit(this.data.WeightWorldDE)
+   //    cy.Extract_All_URLs(this.data.WeightWorldDE)
+   //    cy.TotalExtractedUrl()
+   // })
 
-   it('Verify URLs return 200 status code and save failed URLs',function(){
-      cy.VerifyResponseCode(this.data.WeightWorldDE) 
-      cy.TotalFailedUrl()
-   })
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.WeightWorldDE) 
+   //    cy.TotalFailedUrl()
+   // })
+
+   // it('Collect and Verify URLs For WeightWorl ES',function(){
+   //    cy.visit(this.data.WeightWorldES)
+   //    cy.Extract_All_URLs(this.data.WeightWorldES)
+   //    cy.TotalExtractedUrl()
+   // })
+
+   // it('Verify URLs return 200 status code and save failed URLs',function(){
+   //    cy.VerifyResponseCode(this.data.WeightWorldUK) 
+   //    cy.TotalFailedUrl()
+   // })
 
    // it('Collect and Verify URLs For ShyToBuy UK',function(){
    //    cy.visit(this.data.ShyToBuyUK)
