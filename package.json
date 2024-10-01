@@ -11,7 +11,9 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "^5.1.1",
-    "cypress": "^13.10.0",
+    "chrome-launcher": "^1.1.2",
+    "cypress": "^13.14.2",
+    "cypress-audit": "^1.1.0",
     "cypress-mochawesome-reporter": "^3.8.2",
     "mocha": "^10.4.0"
   },
@@ -19,9 +21,13 @@
   "dependencies": {
     "@2captcha/captcha-solver": "^1.1.1",
     "2captcha": "^3.0.5-2",
+    "cypress-dotenv": "^2.0.0",
+    "exceljs": "^4.4.0",
     "express": "^4.19.2",
     "node-fetch": "^3.3.2",
     "nodemailer": "6.9.14",
-    "nodemailer-sendgrid-transport": "^0.2.0"
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "web-vitals": "^4.2.3",
+    "xlsx": "^0.18.5"
   }
 }

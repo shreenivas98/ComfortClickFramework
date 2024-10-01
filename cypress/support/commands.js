@@ -319,7 +319,7 @@ Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {
         const ariaLabel = $el.attr('aria-label');
         if (href) {
             // Handle absolute URLs directly
-            if (href.startsWith('http') ) {
+            if (href.startsWith('http') ||href.startsWith(' ') ) {
                 if (href.startsWith('https://www.instagram.com/')|| href.startsWith('https://www.tiktok.com/') ){
 
                 }
@@ -340,7 +340,20 @@ Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {
 
                 cy.log(`Not a valid URL:- ${href}`);
                 
-                } else {
+                } 
+            else if (href.startsWith('/')){
+                let croppedurl = href.slice('1')
+                const fullCroppedURL = baseUrl + croppedurl;
+                console.log(fullCroppedURL)
+                cy.readFile(urlsPath).then(data => {
+                    if (!data.includes(fullCroppedURL)) {
+                        data.push(fullCroppedURL);
+                        totalUrlsExtracted++
+                        cy.writeFile(urlsPath, data);
+                    }
+                });
+            }   
+            else {
                     if (baseUrl) {
                         const fullUrl = baseUrl + href;
                         cy.readFile(urlsPath).then(data => {
@@ -348,7 +361,6 @@ Cypress.Commands.add('Extract_All_URLs', (baseUrl) => {
                                 data.push(fullUrl);
                                 totalUrlsExtracted++
                                 cy.writeFile(urlsPath, data);
-                                
                             }
                         });
                     
@@ -508,16 +520,19 @@ Cypress.Commands.add('CartPageActions', () =>{
 
 })
 
-
-
 Cypress.Commands.add('FiltersVerification', () => {
     headerUK.burgerMenuLink().each($el => {
         const href = $el.attr('href');
         //cy.log(`Filter block title is visible on page: ${href}`);
         if (href && href.includes('http')) {
             cy.visit(href).then(() => {
-                cy.get('#DomCatProdList').then($productWrap => {
+                cy.get('body').then($productWrap => {
                     const productList = $productWrap.find('.productWrap ');
+                    
+                //     cy.readFile(FailedPLP).then(data => {    
+                //         data.push(href);                                
+                //         cy.writeFile(FailedPLP, data);
+                // });
                     if(productList.length > 0){
                         cy.get('body').then($body => {
                             const filterWrap = $body.find('#catMixitup .filter-wrap');
@@ -543,12 +558,15 @@ Cypress.Commands.add('FiltersVerification', () => {
                                 cy.get('body').then($filter =>{
                                     if($filter.find('#leftFilter .filter-blockTitle').length>0){
                                         cy.log(`Element with class "filters" is present on: ${href}`);
-                                        
                                         cy.HandlePriceSlider();
                                         cy.VerifyPriceFilter();
                                     }
                                     else{
                                         cy.log(`Price filter not visible on page: ${href}`); 
+                                        cy.readFile(FailedPLP).then(data => {    
+                                            data.push(href);                                
+                                            cy.writeFile(FailedPLP, data);
+                                    });
                                         
                                     }
                                 })
@@ -558,13 +576,10 @@ Cypress.Commands.add('FiltersVerification', () => {
                     }
 
                     else {
-                        //console.log(`Product are not visible in :- ${href}`)
-                        cy.readFile(FailedPLP).then(data => {
-                            
+                        cy.log(`Product are not visible on page :- ${href}`)
+                        cy.readFile(FailedPLP).then(data => {    
                                 data.push(href);                                
                                 cy.writeFile(FailedPLP, data);
-                                
-                            
                         });
                     }
 
@@ -577,6 +592,24 @@ Cypress.Commands.add('FiltersVerification', () => {
     
   });
   
+  Cypress.Commands.add('SendPerformEmail', () =>{
+    
+    const emailBody = `
+        <html>
+        <body style="font-family: Verdana;">
+            <p>Hi User,</p>
+            <p>We are pleased to share the latest results from our automated site performance checks. The attached report details the page load times across key pages, helping you stay informed about site's performance.</p>
+            
+            <p>Please review the information and let me know if you have any questions.</p>
+            <p>Best regards,<br>QA Team</p>
+        </body>
+        </html>
+    `;
 
+    cy.task('sendPerformanceMail', { 
+        subject: 'Site Performance Automation Report', 
+        html: emailBody // Use `html` property for HTML content
+    }).then(result => console.log(result));  
+})
 
 
